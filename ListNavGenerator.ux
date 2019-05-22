@@ -1,0 +1,25 @@
+<Panel ux:Class="ListNavGenerator">
+    <Router ux:Dependency="router" />
+    <object ux:Property="Entries" />
+    <JavaScript>
+
+        module.exports = {
+            "entries": this.Entries.inner(),
+            "selectElement": function(args) {
+                router.push("navInfoPage", args.data);
+            },
+        };
+    </JavaScript>
+
+    <ScrollView>
+        <StackPanel Padding="0,10,0,5">
+            <Rectangle Color="#eee" Height=1 />
+            <Each Items="{entries}">
+                <ListItem Tapped="{selectElement}" Color="#efefef00" HoverColor="#efefef99">
+                    <ListText Color="#333" Value="{name}" />
+                </ListItem>
+                <Rectangle Color="#eee" Height=1 />
+            </Each>
+        </StackPanel>
+    </ScrollView>
+</Panel>

@@ -1,0 +1,96 @@
+<Panel ux:Class="Picker" IsOpen="false">
+    <bool ux:Property="IsOpen" />
+    <object ux:Property="Entries" />
+    <object ux:Property="Current" />
+    <object ux:Property="Done" />
+
+    <JavaScript>
+        const Observable = require("FuseJS/Observable");
+        var tagThis = this;
+        const picked = Observable(-1);
+
+        const pos = function(array, value) {
+            for(var i = 0; i < array.length; i += 1) {
+                if (array[i]["val"]["NameEn"] === value) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        const onOpenOrClose = this.IsOpen.onValueChanged(module, function(val) {
+            if (val && tagThis.Current.value) {
+                var e = module.exports.entries;
+                picked.value = pos(e.toArray(), tagThis.Current.value.value["NameEn"]);
+            }
+        });
+
+        const pick = function(val) {
+            var c = val["data"];
+            var index = c["index"];
+            picked.value = index;
+        }
+
+        const done = function() {
+            var e = module.exports.entries;
+            if (picked.value >= 0 && e) {
+                var i = picked.value;
+                var v = e.getAt(i);
+                if (v) {
+                    tagThis.Current.value.value = v["val"];
+                }
+            }
+        };
+
+        module.exports = {
+            entries: this.Entries.inner().map(function (val, i) {
+                var foo = {};
+                foo["index"] = i;
+                foo["val"] = val;
+                return foo;
+            }),
+            picked: picked,
+            pick: pick,
+            done: done
+        };
+    </JavaScript>
+
+    <WhileTrue Value="{Property IsOpen}">
+        <DockPanel Color="#efefef01" Width="100%">
+            <ScrollView Height="250" Dock="Bottom" Background="#fdfdfd">
+                <StackPanel>
+                    <Each Items="{entries}" TemplateSource="this" TemplateKey="Item">
+                        <Rectangle ux:Name="item1" Color="White" Clicked="{pick}">
+                            <Stroke Width="1" Color="#ebebea" />
+                            <Text Margin="15" Value="{val.NameEn}" FontSize="18" Color="#333" Alignment="Center" TextAlignment="Center" />
+                            <WhilePressed>
+                                <Change item1.Color="#eee" Duration="0.05" DurationBack="0.1" />
+                            </WhilePressed>
+                            <WhileTrue Value="{index == picked}">
+                                <Change item1.Color="#f6f6f6" Duration="0.05" DurationBack="0.1" />
+                            </WhileTrue>
+                        </Rectangle>
+                    </Each>
+                </StackPanel>
+            </ScrollView>
+
+            <StackPanel Dock="Bottom" Background="#eee">
+                <Rectangle Color="#ccc" Height="1" />
+                <DockPanel Dock="Right">
+                    <Rectangle ux:Name="rect3" Color="#ffffff00" Dock="Right">
+                        <Text Value="Ferdig" Font="Bold" Color="#333" Margin="18">
+                            <Tapped>
+                                <Callback Handler="{done}" />
+                                <Set Target="this.IsOpen" Value="false" />
+                            </Tapped>
+                        </Text>
+                        <WhilePressed>
+                            <Change Target="rect3.Color" Value="#efefef" />
+                        </WhilePressed>
+                    </Rectangle>
+                </DockPanel>
+                <Rectangle Color="#ccc" Height="1" />
+            </StackPanel>
+        </DockPanel>
+    </WhileTrue>
+</Panel>

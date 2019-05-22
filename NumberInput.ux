@@ -1,0 +1,10 @@
+<TextInput ux:Class="PrisPerSig" IconColor="#fefefe" Margin="0" Alignment="Top" IsEnabled="true" >
+    <object ux:Property="Options"/>
+    <object ux:Property="Selected"/>
+    <float4 ux:Property="IconColor" />
+    <string ux:Property="Icon" />
+
+    <Rectangle Layer="Background" CornerRadius="3">
+        <Stroke Width="1" Brush="#eee" />
+    </Rectangle>
+</TextInput>

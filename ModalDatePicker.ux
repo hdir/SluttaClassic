@@ -1,0 +1,99 @@
+<Panel ux:Class="ModalDatePicker" IsOpen="false">
+    <bool ux:Property="IsOpen" />
+    <object ux:Property="Date" />
+    <object ux:Property="MinDate" />
+    <object ux:Property="MaxDate" />
+    <JavaScript>
+        const Observable = require("FuseJS/Observable");
+        const DateTimeHelpers = require("DateTimeHelpers");
+        const moment = require('ExtraJS/moment');
+
+        //
+        // NOTE: The 'Date' property is actualy an Observable of milliseconds
+        //
+
+        const tagThis = this;
+
+        const pickerDate = Observable(moment().toDate());
+        const localDate = Observable(moment().toDate());
+
+        const onOpenOrClose = this.IsOpen.onValueChanged(module, function(val) {
+            if (val) {
+                pickerDate.value = new Date(tagThis.Date.value.value);
+            }
+        });
+
+        pickerDate.onValueChanged(module, function(val) {
+            var m = moment(val);
+            m.utc();
+            m.hour(0);
+            m.minute(0);
+            m.second(0);
+            m.millisecond(0);
+
+            localDate.value = m.toDate();
+        });
+
+        const save = function(jsDateObj) {
+            tagThis.Date.value.value = jsDateObj;
+        }
+
+        const saveLatest = function() {
+            save(localDate.value);
+        }
+
+        var setToNow = function() {
+            save(moment().toDate());
+        };
+
+        module.exports = {
+            pickerDate: pickerDate,
+            localDate: localDate,
+            saveLatest: saveLatest,
+            setToNow: setToNow,
+        }
+    </JavaScript>
+    <WhileTrue Value="{Property IsOpen}">
+        <StackPanel Color="#f6f6f6" Alignment="Bottom">
+            <Rectangle Color="#ccc" Height="1" />
+            <DockPanel Color="#eee">
+                <DockPanel Dock="Right">
+                    <Rectangle ux:Name="rect3" Color="#ffffff00">
+                        <Text Value="Ferdig" Font="Bold" Color="#333" Margin="18">
+                            <Tapped>
+                                <Callback Handler="{saveLatest}" />
+                                <Set Target="this.IsOpen" Value="false" />
+                            </Tapped>
+                        </Text>
+                        <WhilePressed>
+                            <Change Target="rect3.Color" Value="#efefef" />
+                        </WhilePressed>
+                    </Rectangle>
+                </DockPanel>
+                <DockPanel Dock="Left">
+                    <Rectangle ux:Name="rect4" Color="#ffffff00">
+                        <Text Color="#666" Font="Bold" Value="Tilbakestill dato" Margin="18">
+                            <Tapped>
+                                <Callback Handler="{setToNow}" />
+                                <Set Target="this.IsOpen" Value="false" />
+                            </Tapped>
+                        </Text>
+                        <WhilePressed>
+                            <Change Target="rect4.Color" Value="#efefef" />
+                        </WhilePressed>
+                    </Rectangle>
+                </DockPanel>
+            </DockPanel>
+            <Rectangle Color="#ccc" Height="1" />
+            <NativeViewHost Alignment="Center">
+                <MyDatePicker Value="{pickerDate}"
+                              MinValue="{Property MinDate}"
+                              MaxValue="{Property MaxDate}" />
+            </NativeViewHost>
+
+        </StackPanel>
+        <Android>
+            <Rectangle Color="White" Opacity="0.7" />
+        </Android>
+    </WhileTrue>
+</Panel>

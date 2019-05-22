@@ -1,0 +1,361 @@
+<Page ux:Class="OnboardingPage">
+    <Router ux:Dependency="depRouter" />
+    <Router ux:Name="router" />
+    <JavaScript File="OnboardingPage.js" />
+    <JavaScript File="UserTimeObservables.js" />
+    <JavaScript File="PickerChoices.js" />
+
+    <ModalDatePicker ux:Name="SmokeDatePicker" Date="{userData.smokeFreeSince}" MinDate="{minDate}" MaxDate="{maxDate}" />
+    <ModalDatePicker ux:Name="SnusDatePicker" Date="{userData.snusFreeSince}" MinDate="{minDate}" MaxDate="{maxDate}" />
+
+    <Picker ux:Name="CigDailyNumberPicker" Entries="{AntallSigaretter}" Current="{userData.dailyCigarettes}" />
+    <Picker ux:Name="SnusDailyNumberPicker" Entries="{AntallSnus}" Current="{userData.dailySnus}" />
+
+    <Picker ux:Name="CigPrisPicker" Entries="{PrisSigaretter}" Current="{userData.pricePerCigarette}" />
+    <Picker ux:Name="SnusPrisPicker" Entries="{PrisSnus}" Current="{userData.pricePerSnus}" />
+
+    <Picker ux:Name="CigReasonPicker" Entries="{Reason}" Current="{userData.quitSmokingReason}" />
+    <Picker ux:Name="SnusReasonPicker" Entries="{SnusReason}" Current="{userData.quitSnusReason}" />
+
+    <Image ux:Class="QuestionMark" File="Assets/onboarding/questionmark.png" />
+    <Image ux:Class="Cigarette" File="Assets/onboarding/cigarette.png" />
+    <Image ux:Class="Snus" File="Assets/onboarding/snus.png" />
+    <Image ux:Class="Eye" File="Assets/onboarding/eye.png" />
+
+    <Timeline ux:Name="timeline1" TargetProgress="1">
+        <Move Target="questionmark" RelativeTo="Size">
+            <Keyframe Y="-0.1"  X="0.05"    Time="0.5"/>
+            <Keyframe Y="0"     X="0"       Time="1.0"/>
+        </Move>
+
+        <Scale Target="questionmark">
+            <Keyframe Value="0.9"  Time="0.0"/>
+            <Keyframe Value="0.9"  Time="0.5"/>
+            <Keyframe Value="0.9"  Time="1.0"/>
+        </Scale>
+
+        <Change Target="questionmark.Opacity">
+            <Keyframe Value="0"    Time="0.5"/>
+            <Keyframe Value="0"    Time="1.0"/>
+        </Change>
+    </Timeline>
+
+    <Timeline ux:Name="timeline2" TargetProgress="1">
+        <Move Target="cigarette" RelativeTo="Size">
+            <Keyframe Y="0"     X="0"       Time="0.0"/>
+            <Keyframe Y="-0.1"  X="0.05"    Time="0.5"/>
+            <Keyframe Y="0"     X="0"       Time="1.0"/>
+        </Move>
+
+        <Scale Target="cigarette">
+            <Keyframe Value="1"  Time="0.0"/>
+            <Keyframe Value="0"  Time="0.5"/>
+            <Keyframe Value="0"  Time="1.0"/>
+        </Scale>
+
+        <Change Target="cigarette.Opacity">
+            <Keyframe Value="1"    Time="0.0"/>
+            <Keyframe Value="0"    Time="0.5"/>
+            <Keyframe Value="0"    Time="1.0"/>
+        </Change>
+    </Timeline>
+
+    <Timeline ux:Name="timeline3" TargetProgress="1">
+        <Move Target="snus" RelativeTo="Size">
+            <Keyframe Y="0"     X="0"       Time="0.0"/>
+            <Keyframe Y="-0.1"  X="0.05"    Time="0.5"/>
+            <Keyframe Y="0"     X="0"       Time="1.0"/>
+        </Move>
+
+        <Scale Target="snus">
+            <Keyframe Value="1"  Time="0.0"/>
+            <Keyframe Value="0"  Time="0.5"/>
+            <Keyframe Value="0"  Time="1.0"/>
+        </Scale>
+
+        <Change Target="snus.Opacity">
+            <Keyframe Value="1"    Time="0.0"/>
+            <Keyframe Value="0"    Time="0.5"/>
+            <Keyframe Value="0"    Time="1.0"/>
+        </Change>
+    </Timeline>
+
+    <Timeline ux:Name="timeline4" TargetProgress="1">
+        <Move Target="eye" RelativeTo="Size">
+            <Keyframe Y="0"     X="0"       Time="0.0"/>
+            <Keyframe Y="-0.1"  X="0.05"    Time="0.5"/>
+            <Keyframe Y="0"     X="0"       Time="1.0"/>
+        </Move>
+
+        <Scale Target="eye">
+            <Keyframe Value="1"  Time="0.0"/>
+            <Keyframe Value="0"  Time="0.5"/>
+            <Keyframe Value="0"  Time="1.0"/>
+        </Scale>
+
+        <Change Target="eye.Opacity">
+            <Keyframe Value="1"    Time="0.0"/>
+            <Keyframe Value="0"    Time="0.5"/>
+            <Keyframe Value="0"    Time="1.0"/>
+        </Change>
+    </Timeline>
+
+    <Text ux:Class="Title" Alignment="Top" FontSize="26" Color="#000" TextAlignment="Center" TextWrapping="Wrap" Margin="0,0" Font="SluttaMedium" />
+    <Text ux:Class="Content" Alignment="Top" FontSize="16" Color="Black" TextAlignment="Center" TextWrapping="Wrap"/>
+
+    <DockPanel>
+        <Panel Dock="Top" Margin="0, 10, 0, 0" >
+            <Panel ux:Name="questionmark" Opacity="1" Width="25%" HitTestMode="None" Alignment="Center">
+                <QuestionMark />
+                <AddingAnimation>
+                    <Move Y="-2" RelativeTo="Size" Duration="0.6" Easing="QuinticIn" />
+                    <Change  questionmark.Opacity="0" Duration="0.6" Easing="QuinticIn" />
+                </AddingAnimation>
+            </Panel>
+
+            <Panel ux:Name="cigarette" Opacity="0" Width="25%" HitTestMode="None" Alignment="Center">
+                <Cigarette />
+            </Panel>
+
+            <Panel ux:Name="snus" Opacity="0" Width="25%" HitTestMode="None" Alignment="Center">
+                <Snus />
+            </Panel>
+
+            <Panel ux:Name="eye" Opacity="0" Width="25%" HitTestMode="None" Alignment="Center">
+                <Eye />
+            </Panel>
+        </Panel>
+
+        <PageControl ux:Name="pageControl" Margin="20, 20, 20, 0">
+
+            <!--  PAGE 1 - CHOOSE YOUR POISON -->
+            <DockPanel ux:Name="page1">
+
+                <ActivatingAnimation Scale="0.5">
+                    <Change timeline1.Progress="0"/>
+                </ActivatingAnimation>
+
+                <StackPanel ux:Name="page1Content" Dock="Top">
+                    <Title>Hva vil du slutte med?</Title>
+                    <NativeViewHost>
+                        <DockPanel Margin="10, 50, 10, 5">
+                            <Text Value="Jeg vil slutte å røyke" Color="Black" FontSize="16" Margin="0, 15, 0, 10"
+                                  Dock="Left" />
+                            <MySwitch ux:Name="dotheysmoke" Dock="Right" Value="{userData.smokes}" Clicked="{resetSmokeSince}" />
+                        </DockPanel>
+                    </NativeViewHost>
+                    <Rectangle Color="#ccc" Height="1" />
+                    <NativeViewHost>
+                        <DockPanel Margin="10, 5, 10, 5">
+                            <Text Value="Jeg vil slutte å snuse" Color="Black" FontSize="16" Margin="0, 10, 0, 10"
+                                  Dock="Left" />
+                            <MySwitch Dock="Right" Value="{userData.snus}" Clicked="{resetSnusSince}" />
+                        </DockPanel>
+                    </NativeViewHost>
+                </StackPanel>
+
+
+                <Panel Margin="10, 20, 10, 20" Dock="Bottom" >
+                    <BasicButton ux:Name="onboardingButtonPage1" Width="100%" Text="Fortsett" TextColor="White" TextHoverColor="White" BackgroundColor="Gray" BackgroundHoverColor="Gray" Font="Bold" Alignment="Center" Tapped="{gotoPage2}" />
+                </Panel>
+
+                <WhileTrue Value="{userData.smokes || userData.snus}">
+                    <Change onboardingButtonPage1.BackgroundColor="SluttaRed" Duration="0.2"/>
+                    <Change onboardingButtonPage1.BackgroundHoverColor="SluttaLightRed" Duration="0.2"/>
+                </WhileTrue>
+
+                <AddingAnimation>
+                    <Move Y="2" RelativeTo="Size" Duration="0.6" Easing="QuinticIn" />
+                    <Change page1Content.Opacity="0" Duration="0.6" Easing="QuinticIn" />
+                </AddingAnimation>
+
+            </DockPanel>
+
+
+            <!--  PAGE 2 - SMOKING SETTINGS -->
+            <WhileTrue Value="{userData.smokes}">
+                <DockPanel ux:Name="page2">
+
+                    <ActivatingAnimation Scale="0.5">
+                        <Change timeline2.Progress="0"/>
+                    </ActivatingAnimation>
+
+                    <StackPanel ux:Name="page2Content" Dock="Top">
+                        <Title Margin="0, 0, 0, 25">Dine røykevaner</Title>
+                        <DockPanel Height="30" Margin="10, 5, 10, 0" HitTestMode="LocalBounds">
+
+                            <Grid Columns="1*, 1*">
+                                <Text Value="Røykfri siden" Color="Black" FontSize="16" Margin="0"
+                                      Dock="Left" />
+                                <Text Value="{smokeFreeSincePretty}"
+                                      Color="Gray" FontSize="16" Margin="0" TextAlignment="Right"
+                                      Dock="Right" />
+                            </Grid>
+                            <Tapped>
+                                <Set Target="SmokeDatePicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+
+                        <Rectangle Color="#ccc" Height="1" />
+                        <DockPanel Height="30" Margin="10, 5, 10, 5" HitTestMode="LocalBounds">
+                            <Grid Columns="2*, 1*">
+                                <Text Value="Antall sigaretter daglig" Color="Black" FontSize="16" Margin="0"
+                                      Dock="Left" Alignment="VerticalCenter" />
+                                <Text Dock="Right" TextWrapping="Wrap" Alignment="VerticalCenter" TextAlignment="Right" Margin="0" Color="#666" Value="{userData.dailyCigarettes.NameEn}" />
+                            </Grid>
+                            <Tapped>
+                                <Set Target="CigDailyNumberPicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+
+                        <Rectangle Color="#ccc" Height="1" />
+                        <DockPanel Height="30" Margin="10, 5, 10, 5" HitTestMode="LocalBounds">
+                            <Grid Columns="2*, 1*">
+                                <Text Value="Pris per sigarett" Color="Black" FontSize="16" Margin="0" Alignment="VerticalCenter"
+                                      Dock="Left" />
+                                <Text Dock="Right" TextWrapping="Wrap" Alignment="VerticalCenter" TextAlignment="Right" Margin="0" Color="#666" Value="{userData.pricePerCigarette.NameEn}" />
+                            </Grid>
+                            <Tapped>
+                                <Set Target="CigPrisPicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+
+                        <Rectangle Color="#ccc" Height="1" />
+                        <DockPanel Height="30" Margin="10, 5, 10, 10" HitTestMode="LocalBounds">
+                            <Grid Columns="2*, 1*" Height="70">
+                                <Text Value="Jeg slutter på grunn av:" Color="Black" FontSize="16" Margin="0" Alignment="VerticalCenter"
+                                      Dock="Left" TextWrapping="Wrap" MinWidth="80%" TextAlignment="Left" />
+                                <Text Dock="Right" TextWrapping="Wrap" Alignment="VerticalCenter" TextAlignment="Right" Margin="0" Color="#666" Value="{userData.quitSmokingReason.NameEn}" />
+                            </Grid>
+                            <Tapped>
+                                <Set Target="CigReasonPicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+                        <Rectangle Color="#ccc" Height="1" />
+                    </StackPanel>
+
+                    <AddingAnimation>
+                        <Move Y="2" RelativeTo="Size" Duration="0.6" Easing="QuinticIn" />
+                        <Change  page2Content.Opacity="0" Duration="0.6" Easing="QuinticIn" />
+                    </AddingAnimation>
+                    <Panel Margin="10, 20, 10, 20" Dock="Bottom">
+                        <BasicButton ux:Name="onboardingButtonPage2" Width="100%" Text="Fortsett" TextColor="White" BackgroundColor="SluttaRed" BackgroundHoverColor="SluttaLightRed" Font="Bold" Alignment="Center" Tapped="{gotoPage3}" />
+                    </Panel>
+                </DockPanel>
+            </WhileTrue>
+
+
+
+            <!--  PAGE 3 - SNUS SETTINGS -->
+            <WhileTrue Value="{userData.snus}">
+                <DockPanel ux:Name="page3">
+
+                    <ActivatingAnimation Scale="0.5">
+                        <Change timeline3.Progress="0"/>
+                    </ActivatingAnimation>
+
+                    <StackPanel ux:Name="page3Content" Dock="Top">
+                        <Title Margin="0, 0, 0, 15">Snus</Title>
+                        <DockPanel Height="30" Margin="10, 5, 10, 0" HitTestMode="LocalBounds">
+                            <Text Value="Snusfri siden" Color="Black" FontSize="16" Margin="0"
+                                  Dock="Left" />
+                            <Text Value="{snusFreeSincePretty}"
+                                  Color="Gray" FontSize="16" Margin="0"
+                                  Dock="Right" />
+                            <Tapped>
+                                <Set Target="SnusDatePicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+
+                        <Rectangle Color="#ccc" Height="1" />
+                        <DockPanel Height="30" Margin="10, 5, 10, 5" HitTestMode="LocalBounds">
+                            <Grid Columns="2*, 1*">
+                                <Text Value="Antall snus daglig" Color="Black" FontSize="16" Margin="0"
+                                      Dock="Left" Alignment="VerticalCenter" />
+                                <Text Dock="Right" TextWrapping="Wrap" Alignment="VerticalCenter" TextAlignment="Right" Margin="0" Color="#666" Value="{userData.dailySnus.NameEn}" />
+                            </Grid>
+                            <Tapped>
+                                <Set Target="SnusDailyNumberPicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+
+                        <Rectangle Color="#ccc" Height="1" />
+                        <DockPanel Height="30" Margin="10, 5, 10, 5" HitTestMode="LocalBounds">
+                            <Grid Columns="2*, 1*">
+                                <Text Value="Pris per snus" Color="Black" FontSize="16" Margin="0" Alignment="VerticalCenter"
+                                      Dock="Left" />
+                                <Text Dock="Right" TextWrapping="Wrap" Alignment="VerticalCenter" TextAlignment="Right" Margin="0" Color="#666" Value="{userData.pricePerSnus.NameEn}" />
+                            </Grid>
+                            <Tapped>
+                                <Set Target="SnusPrisPicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+
+                        <Rectangle Color="#ccc" Height="1" />
+
+                        <DockPanel Height="30" Margin="10, 5, 10, 10" HitTestMode="LocalBounds">
+                            <Grid Columns="2*, 1*" Height="70">
+                                <Text Value="Jeg slutter på grunn av:" Color="Black" FontSize="16" Margin="0" Alignment="VerticalCenter"
+                                      Dock="Left" TextWrapping="Wrap" MinWidth="80%" TextAlignment="Left" />
+                                <Text Dock="Right" Alignment="VerticalCenter" TextAlignment="Right" Margin="0" Color="#666" Value="{userData.quitSnusReason.NameEn}" />
+                            </Grid>
+                            <Tapped>
+                                <Set Target="SnusReasonPicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+                        <Rectangle Color="#ccc" Height="1" />
+                    </StackPanel>
+
+                    <AddingAnimation>
+                        <Move Y="2" RelativeTo="Size" Duration="0.6" Easing="QuinticIn" />
+                        <Change page2Content.Opacity="0" Duration="0.6" Easing="QuinticIn" />
+                    </AddingAnimation>
+                    <Panel Margin="10, 20, 10, 20" Dock="Bottom">
+                        <BasicButton ux:Name="onboardingButtonPage3" Dock="Bottom" Width="100%" Text="Fortsett" TextColor="White" BackgroundColor="SluttaRed" BackgroundHoverColor="SluttaLightRed" Font="Bold" Alignment="Center" Tapped="{gotoPage4}" />
+                    </Panel>
+                </DockPanel>
+            </WhileTrue>
+
+
+
+
+            <!--  PAGE 4 - ACTIVATE CAMERA? -->
+            <DockPanel ux:Name="page4">
+
+                <ActivatingAnimation Scale="0.5">
+                    <Change timeline4.Progress="0"/>
+                </ActivatingAnimation>
+
+                <StackPanel ux:Name="page4Content" Dock="Top">
+                    <Title>Se deg selv i øynene!</Title>
+                    <NativeViewHost>
+                        <DockPanel Margin="20, 50, 20, 5">
+                            <Grid Columns="4*, 1*">
+                                <Text Value="Aktiver bakgrunnsspeil" Color="Black" FontSize="16" Margin="0"
+                                      Dock="Left" TextWrapping="Wrap" Alignment="VerticalCenter" />
+                                <MySwitch Dock="Right" Value="{userData.allowCameraBackground}" />
+                            </Grid>
+                        </DockPanel>
+                    </NativeViewHost>
+                    <Rectangle Color="#f6303e" Height="1" Margin="0, 0, 0, 20" />
+                    <Content>Se deg selv i øynene når du bruker Slutta-appen. Når appen kjører er frontkamera aktivert slik at du ser et speilbilde av deg selv</Content>
+                </StackPanel>
+
+                <Panel Margin="20, 20, 20, 20" Dock="Bottom">
+                    <BasicButton ux:Name="onboardingButtonPage4" Width="100%" Text="Ferdig" TextColor="White" BackgroundColor="SluttaRed" BackgroundHoverColor="SluttaLightRed" Font="Bold" Alignment="Center" Tapped="{returnAndSave}" />
+                </Panel>
+
+            </DockPanel>
+        </PageControl>
+
+        <!--  PAGE INDICATOR -->
+        <PageIndicator ux:Name="pageIndicator" Navigation="pageControl" Dock="Bottom" Alignment="TopCenter">
+            <Circle ux:Template="Dot" ux:Name="dotFac" Color="#C6C6C9" Margin="5" Width="7" Height="20">
+                <ActivatingAnimation>
+                    <Scale Factor="1.1"/>
+                    <Change dotFac.Color="Black" />
+                </ActivatingAnimation>
+            </Circle>
+        </PageIndicator>
+    </DockPanel>
+</Page>

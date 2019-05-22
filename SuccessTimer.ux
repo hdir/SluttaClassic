@@ -1,0 +1,19 @@
+<Panel ux:Class="SuccessTimer" TimeFontSize="32">
+    <double ux:Property="Duration" />
+    <int ux:Property="TimeFontSize" />
+
+    <Grid Rows="3*, 1*" ColumnCount="4">
+        <TimerText Value="{floor(abs({Property Duration}) / 86400000)}"
+                   FontSize="{Property TimeFontSize}" />
+        <TimerText Value="{floor(mod(abs({Property Duration}), 86400000) / 3600000)}"
+                   FontSize="{Property TimeFontSize}" />
+        <TimerText Value="{floor(mod(mod(abs({Property Duration}), 86400000), 3600000) / 60000)}"
+                   FontSize="{Property TimeFontSize}" />
+        <TimerText Value="{floor(mod(mod(mod(abs({Property Duration}), 86400000), 3600000), 60000) / 1000)}" Color="SluttaBlue"
+                   FontSize="{Property TimeFontSize}" />
+        <TimerText Value="dager" FontSize="11" Color="Gray" />
+        <TimerText Value="timer" FontSize="11" Color="Gray" />
+        <TimerText Value="minutter" FontSize="11" Color="Gray" />
+        <TimerText Value="sekunder" FontSize="11" Color="SluttaBlue" />
+    </Grid>
+</Panel>

@@ -1,0 +1,5 @@
+<DockPanel ux:Class="FaceCam">
+    <JavaScript File="FaceCam.js" />
+    <Rectangle Color="#FFFFFFCC"/>
+    <CameraView ux:Name="_cam" PreviewStretchMode="UniformToFill" />
+</DockPanel>

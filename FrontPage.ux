@@ -1,0 +1,79 @@
+<Page ux:Class="FrontPage">
+    <Router ux:Dependency="depRouter" />
+    <JavaScript File="FrontPage.js" />
+    <JavaScript File="UserTimeObservables.js" />
+    <JavaScript File="DailyNotifications.js" />
+
+
+    <Activated>
+        <Callback Handler="{activeCheck}" />
+        <Callback Handler="{updateEnqueuedLocalNotifications}" />
+        <Callback Handler="{zeroDayPopupCheck}" />
+        <Callback Handler="{cycleRandomBg}" />
+    </Activated>
+
+    <NativeViewHost>
+        <Popup IsOpen="{showZeroDayPopup}" Alignment="Center" Width="250" Text="{zeroDayPopupMessage}"/>
+        <DockPanel>
+            <StackPanel Dock="Top">
+                <!-- nav bar -->
+                <DockPanel Color="White" Height="50" Padding="0,0,10,0">
+                    <Shadow ux:Name="RectangleShadow" Size="10" Distance="1"/>
+                    <Image File="Assets/hamburger.png" Dock="Left" Margin="7"
+                           Tapped="{gotoMenu}"/>
+                    <Image File="Assets/slutta_logo.png" Padding="30,0,5,0" />
+                    <Image File="Assets/ic_share_black_48dp.png" Dock="Right" Margin="7"
+                           Tapped="{shareWins}" />
+                </DockPanel>
+
+                <SuccessPanel Enabled="{userData.smokes}"
+                              DurationFree="{durationSmokeFreeMs}"
+                              DetailDestination="{gotoSmokeDetails}"
+                              HaveBeenText="Du har vært røykfri i"
+                              WillBeText="Du slutter å røyke om"/>
+
+
+                <SuccessPanel Enabled="{userData.snus}"
+                              DurationFree="{durationSnusFreeMs}"
+                              DetailDestination="{gotoSnusDetails}"
+                              HaveBeenText="Du har vært snusfri i"
+                              WillBeText="Du slutter å snuse om"/>
+
+                <Rectangle Height="1" Color="#ddd" Margin="0, 5, 0, 0" />
+                <!-- while either smoke or snus true -->
+                <WhileTrue Value="{activeTimers && moneySaved > 0}">
+                    <StackPanel Orientation="Horizontal" Alignment="Center" Margin="10">
+                        <Text Value="Du har spart" FontSize="14" Margin="0,0,3,0" />
+                        <Text Value="{moneySavedPretty} kr" FontSize="14" Font="Bold" Color="SluttaBlue" />
+                    </StackPanel>
+                </WhileTrue>
+            </StackPanel>
+
+            <Image ux:Name="panic_button" Opacity="1" File="Assets/slutta_frontpage_help.png" Width="50%" Margin="0, 2">
+                <Tapped>
+                    <Callback Handler="{gotoHelp}" />
+                </Tapped>
+                <Pressed>
+                    <Scale Target="panic_button" Factor="1.08" Duration="0.2" DelayBack="0.1" DurationBack="0.2" />
+                    <Change panic_button.Opacity="0.3" Duration="0.3" DurationBack="0.3" Delay="0.05" Easing="CircularInOut"/>
+                </Pressed>
+            </Image>
+
+            <Rectangle Height="55" Color="White" Dock="Bottom" Tapped="{gotoHealthEffects}">
+                <Text Value="Vis helsegevinster" Alignment="Center" Font="Bold" Color="SluttaBlue" />
+            </Rectangle>
+        </DockPanel>
+
+        <WhileActive>
+            <WhileTrue Value="{userData.allowCameraBackground}">
+                <FaceCam />
+            </WhileTrue>
+        </WhileActive>
+
+    </NativeViewHost>
+    <Rectangle>
+        <ImageFill File="{randomBg}" StretchMode="Fill" Opacity="0.6" />
+    </Rectangle>
+
+
+</Page>

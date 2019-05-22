@@ -1,0 +1,16 @@
+<DockPanel ux:Class="CommonNavBar" Color="White" Height="50" Padding="0,0,10,0" ux:Name="self" PrevTitle="">
+    <Router ux:Dependency="router" />
+    <Shadow ux:Name="RectangleShadow" Size="10" Distance="1"/>
+
+    <string ux:Property="PrevTitle" />
+
+    <Panel HitTestMode="LocalBoundsAndChildren" Dock="Left" >
+        <Image File="Assets/backArrow.png" Margin="12"/>
+        <Tapped>
+            <GoBack NavigationContext="router" />
+        </Tapped>
+    </Panel>
+    <Text Dock="Left" Value="{Property self.PrevTitle}" Margin="5,5,5,5" FontSize="16" Alignment="Center" TextAlignment="Left" />
+
+
+</DockPanel>

@@ -1,0 +1,190 @@
+<Page ux:Class="SharePage" animateDots="true">
+    <Router ux:Dependency="depRouter" />
+    <JavaScript File="UserTimeObservables.js" />
+    <JavaScript>
+        const Observable = require('FuseJS/Observable');
+        const Share = require("FuseJS/Share");
+        const FileSystem = require("FuseJS/FileSystem");
+
+        var share = function() {
+            var path = FileSystem.cacheDirectory  + "/" + "foo.png";
+            savePanel.save(path).then(function(savedPath) {
+                Share.shareFile(savedPath, "image/*", "");
+            });
+            AppEvents.logEvent('dele_click');
+        }
+
+        module.exports = {
+            share: share
+        }
+    </JavaScript>
+
+    <bool ux:Property="animateDots" />
+
+    <UserEvent ux:Name="startShare" />
+    <OnUserEvent EventName="startShare" Handler="{share}" />
+
+    <DockPanel>
+        <Activated>
+            <!-- <Change dotWrapper.Opacity="1" Duration="20" Easing="CubicInOut" /> -->
+    	</Activated>
+
+        <CommonNavBar router="depRouter" Dock="Top" PrevTitle="Tilbake" />
+
+        <StackPanel Dock="Top" Alignment="Center" Padding="0, 20, 0, 0">
+
+            <Text Value="Forbereder å dele fremdrift din"
+                  Alignment="Center" TextAlignment="Center" Font="SluttaMedium" FontSize="20" TextWrapping="Wrap">
+                <Scaling ux:Name="prepTextScaling" Factor="0"/>
+            </Text>
+
+            <StackPanel ux:Name="dotWrapper" Orientation="Horizontal" Opacity="1" Alignment="Center" Margin="0, 10, 0, 0">
+                <Circle ux:Name="dot1" Color="#666" Margin="5" Width="7" Height="7" Opacity="0" Alignment="Center" />
+                <Circle ux:Name="dot2" Color="#666" Margin="5" Width="7" Height="7" Opacity="0" Alignment="Center" />
+                <Circle ux:Name="dot3" Color="#666" Margin="5" Width="7" Height="7" Opacity="0" Alignment="Center" />
+            </StackPanel>
+        </StackPanel>
+
+
+        <Rectangle ux:Name="saveView"
+                   Width="80%" Color="White" Padding="1,0,1,1"
+                   Opacity="0"
+                   Alignment="Center">
+            <Stroke Width="1" Color="Gray"/>
+            <Scaling ux:Name="saveScale" Factor="0"/>
+            <SavePanel ux:Name="savePanel"
+                       Color="White">
+                <StackPanel Dock="Top">
+                    <Image File="Assets/slutta_logo.png" Padding="30,0,5,0" Height="50" />
+                    <WhileTrue Value="{userData.smokes == true}">
+                        <WhileTrue Value="{durationSmokeFreeMs >= 0}">
+                            <Text Value="Jeg har vært røykfri i:" Alignment="Center" Margin="10, 10, 10, 2"
+                                  FontSize="16" Color="Black" />
+                        </WhileTrue>
+                        <WhileFalse Value="{durationSmokeFreeMs >= 0}">
+                            <Text Value="Jeg vil slutte å røyke om:" Alignment="Center" Margin="10, 10, 10, 2"
+                                  FontSize="16" Color="Black" />
+                        </WhileFalse>
+                        <SuccessTimer Duration="{durationSmokeFreeMs}" Height="80"
+                                      TimeFontSize="28"/>
+                    </WhileTrue>
+                    <WhileTrue Value="{userData.snus == true}">
+                        <WhileTrue Value="{durationSnusFreeMs >= 0}">
+                            <Text Value="Jeg har vært snusfri i:" Alignment="Center" Margin="10, 10, 10, 2"
+                                  FontSize="16" Color="Black" />
+                        </WhileTrue>
+                        <WhileFalse Value="{durationSnusFreeMs >= 0}">
+                            <Text Value="Jeg vil slutte å snuse om:" Alignment="Center" Margin="10, 10, 10, 2"
+                                  FontSize="16" Color="Black" />
+                        </WhileFalse>
+                        <SuccessTimer Duration="{durationSnusFreeMs}" Height="80"
+                                      TimeFontSize="28"/>
+                    </WhileTrue>
+                    <WhileTrue Value="{moneySaved > 0}">
+                        <StackPanel Orientation="Horizontal" Alignment="Center" Margin="10, 10, 10, 5">
+                            <Text Value="Jeg har spart" FontSize="14" Margin="0,0,3,0" />
+                            <Text Value="{moneySavedPretty} kr" FontSize="14" Font="Bold" Color="SluttaBlue" />
+                        </StackPanel>
+                    </WhileTrue>
+                    <Rectangle Color="SluttaRed" Padding="5" Margin="0, 10, 0, 0">
+                        <Text TextAlignment="Center" Alignment="VerticalCenter" FontSize="12" TextWrapping="Wrap" Color="White" Value="Ønsker du også hjelp til å slutte? Last ned appen." />
+                    </Rectangle>
+                </StackPanel>
+            </SavePanel>
+        </Rectangle>
+        <Text ux:Name="doneText" Dock="Bottom"
+              Value="Så fint! Bare trykk 'Tilbake' for å returnerer."
+              TextWrapping="Wrap"
+              Alignment="Center" TextAlignment="Center"
+              Opacity="0" Padding="0, 0, 0, 20">
+            <Scaling ux:Name="doneTextScaling" Factor="0"/>
+            <Tapped>
+                <GoBack NavigationContext="depRouter" />
+            </Tapped>
+        </Text>
+    </DockPanel>
+
+    <Timeline ux:Name="shareTimeline">
+
+        <Play Target="dotTimeline" Delay="1.5" />
+        <!-- <Play Target="dotTimeline2" Delay="1" /> -->
+
+        <Change saveView.Opacity="1"
+                Duration="0.6" DurationBack="0"
+                Easing="CubicIn"
+                Delay="0.5"/>
+        <Change saveScale.Factor="1"
+                Duration="1" DurationBack="0"
+                Easing="BounceOut"
+                Delay="0.6"/>
+        <Change prepTextScaling.Factor="1"
+                Duration="0.3" DurationBack="0"
+                Easing="CubicIn" Delay="1.5"/>
+
+        <RaiseUserEvent EventName="startShare" Delay="4" />
+
+        <!-- <Stop Target="dotTimeline" Delay="4" /> -->
+        <!-- <Stop Target="dotTimeline2" Delay="10" /> -->
+
+        <Change doneTextScaling.Factor="1"
+                Duration="0.2" DurationBack="0"
+                Easing="CubicIn" Delay="8"/>
+        <Change doneText.Opacity="1"
+                Duration="0.2" DurationBack="0"
+                Easing="CubicIn" Delay="8" />
+        <Change dotWrapper.Opacity="0"
+                Duration="1" DurationBack="0"
+                Easing="CubicIn" Delay="4" />
+    </Timeline>
+
+    <!-- <Timeline ux:Name="dotTimeline2" PlayMode="Wrap">
+        <Change Target="dotWrapper.Opacity">
+            <Keyframe Value="0"   Time="0"/>
+            <Keyframe Value="1"     Time="1"/>
+            <Keyframe Value="1"     Time="4"/>
+            <Keyframe Value="0"   Time="5"/>
+            <Keyframe Value="0"   Time="20"/>
+        </Change>
+    </Timeline> -->
+
+    <Timeline ux:Name="dotTimeline" PlayMode="Wrap">
+        <Move Target="dot1" RelativeTo="Size">
+            <Keyframe Y="0"     X="0"    Time="0.0"/>
+            <Keyframe Y="-0.6"  X="0"    Time="0.2"/>
+            <Keyframe Y="0"     X="0"    Time="0.4"/>
+        </Move>
+        <Move Target="dot2" RelativeTo="Size">
+            <Keyframe Y="0"     X="0"    Time="0.1"/>
+            <Keyframe Y="-0.6"  X="0"    Time="0.3"/>
+            <Keyframe Y="0"     X="0"    Time="0.5"/>
+        </Move>
+        <Move Target="dot3" RelativeTo="Size">
+            <Keyframe Y="0"     X="0"    Time="0.2"/>
+            <Keyframe Y="-0.6"  X="0"    Time="0.4"/>
+            <Keyframe Y="0"     X="0"    Time="0.6"/>
+            <Keyframe Y="0"     X="0"    Time="0.7"/>
+        </Move>
+
+        <Change Target="dot1.Opacity">
+            <Keyframe Value="0.6"    Time="0.0"/>
+            <Keyframe Value="1"      Time="0.2"/>
+            <Keyframe Value="0.6"    Time="0.4"/>
+        </Change>
+        <Change Target="dot2.Opacity">
+            <Keyframe Value="0.6"    Time="0.0"/>
+            <Keyframe Value="1"      Time="0.2"/>
+            <Keyframe Value="0.6"    Time="0.4"/>
+        </Change>
+        <Change Target="dot3.Opacity">
+            <Keyframe Value="0.6"    Time="0.0"/>
+            <Keyframe Value="1"      Time="0.2"/>
+            <Keyframe Value="0.6"    Time="0.4"/>
+        </Change>
+
+    </Timeline>
+
+
+    <WhileActive>
+        <Change shareTimeline.TargetProgress="1" />
+    </WhileActive>
+</Page>

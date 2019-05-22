@@ -1,0 +1,130 @@
+<Page ux:Class="DetailsPage">
+    <Router ux:Dependency="depRouter" />
+    <JavaScript File="DetailsPage.js" />
+    <JavaScript File="UserTimeObservables.js" />
+
+    <Activated>
+		<Callback Handler="{getFeaturedPoisonFact}" />
+		<Callback Handler="{populateValuesForChosen}" />
+		<Callback Handler="{getHealthInfo}" />
+		<Callback Handler="{getRewards}" />
+		<Callback Handler="{getFeaturedOkonomiFact}" />
+		<Callback Handler="{calculateNotes}" />
+	</Activated>
+
+    <DockPanel>
+        <CommonNavBar router="depRouter" Dock="Top" PrevTitle="Tilbake" />
+
+        <ScrollView Margin="10,15,20,20">
+            <StackPanel>
+
+                <StackPanel Dock="Top" Margin="0,0,0,25">
+                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                        <Image File="Assets/DetailsPage/slutta_stats_toxic.png" Padding="0, 0, 0, 0" Width="22" Alignment="VerticalCenter" />
+                        <Text Value="Giftstoffer" Dock="Top" Margin="7, 5, 0, 0" FontSize="32" TextWrapping="Wrap" Padding="0, 0, 0, 0" Font="SluttaMedium" Alignment="VerticalCenter" />
+                    </StackPanel>
+                    <WhileTrue Value="{isSmoke}">
+                        <WhileTrue Value="{moneySavedChosen} > 0">
+                            <Text Value="I løpet av tiden du har vært røykfri, har du unngått å få i deg {numberOfCigs} røyk. Det tilsvarer:" TextAlignment="Left" Margin="5,5,5,20" Padding="0, 4, 4, 0" FontSize="16" TextWrapping="Wrap" />
+                        </WhileTrue>
+                        <Grid RowCount="1" ColumnCount="3">
+                            <StackPanel>
+                                <Text TextAlignment="Center" Value="{tarInMg} mg" Font="Bold" />
+                                <Text TextAlignment="Center" Value="tjære" Margin="0,0,0,10" />
+                                <WhileTrue Value="{featuredPoisonTitle == 'Tjære'}">
+                                    <Image File="Assets/arrow.png" Width="20" Dock="Right" />
+                                </WhileTrue>
+                            </StackPanel>
+                            <StackPanel>
+                                <Text TextAlignment="Center" Value="{nicotineInMg} mg" Font="Bold" />
+                                <Text TextAlignment="Center" Value="nikotin" Margin="0,0,0,10" />
+                                <WhileTrue Value="{featuredPoisonTitle == 'Nikotin'}">
+                                    <Image File="Assets/arrow.png" Width="20" Dock="Right" />
+                                </WhileTrue>
+                            </StackPanel>
+                            <StackPanel>
+                                <Text TextAlignment="Center" Value="{ammoniaInMg} mg" Font="Bold" />
+                                <Text TextAlignment="Center" Value="ammoniakk" Margin="0,0,0,10" />
+                                <WhileTrue Value="{featuredPoisonTitle == 'Ammoniakk'}">
+                                    <Image File="Assets/arrow.png" Width="20" Dock="Right" />
+                                </WhileTrue>
+                            </StackPanel>
+                        </Grid>
+                        <Rectangle Color="SluttaBlue" Padding="15" Margin="5, 0, 0, 0">
+                            <Text Color="White" FontSize="16" TextWrapping="Wrap" TextAlignment="Left" Value="{featuredPoisonFact}" />
+                        </Rectangle>
+                    </WhileTrue>
+
+                    <WhileFalse Value="{isSmoke}">
+                        <WhileTrue Value="{moneySavedChosen} > 0">
+                            <Text Value="I løpet av tiden du har vært snusfri, har du unngått å få i deg {numberOfSnus} snus. Da unngår du giftstoffer som f.eks:" TextAlignment="Left" Margin="0,7,0,0" FontSize="16" TextWrapping="Wrap" />
+                        </WhileTrue>
+                        <StackPanel Orientation="Horizontal" Height="90" Alignment="Center">
+                            <Image File="{featuredPoisonImage}" Margin="12" />
+                            <Text Value="{featuredPoisonTitle}" TextAlignment="Left" Margin="0,7,0,0" Alignment="CenterLeft" FontSize="16" TextWrapping="Wrap" />
+                        </StackPanel>
+                        <Image File="Assets/arrow.png" Width="20" Alignment="Center" />
+                        <Rectangle Color="SluttaBlue" Padding="15" Margin="5, 0, 0, 0">
+                            <Text Color="White" FontSize="16" TextWrapping="Wrap" TextAlignment="Left" Value="{featuredPoisonFact}" />
+                        </Rectangle>
+                    </WhileFalse>
+                </StackPanel>
+
+                <StackPanel Dock="Top" Margin="0,0,0,5">
+                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                        <Image File="Assets/DetailsPage/slutta_stats_health.png" Padding="0, 0, 0, 0" Width="22" Alignment="VerticalCenter" />
+                        <Text Value="Helse" Dock="Top" Margin="7, 5, 0, 0" FontSize="32" TextWrapping="Wrap" Padding="0, 0, 0, 0" Font="SluttaMedium" Alignment="VerticalCenter" />
+                    </StackPanel>
+                    <Each Items="{healthInfo}">
+                        <Text Value="{info}" TextAlignment="Left" Margin="5,5,5,20" Padding="0, 4, 4, 0" FontSize="16" TextWrapping="Wrap" />
+                    </Each>
+                </StackPanel>
+
+                <StackPanel Dock="Top" Margin="0,0,0,40">
+                    <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
+                        <Image File="Assets/DetailsPage/slutta_stats_economy.png" Padding="0, 0, 0, 0" Width="22" Alignment="VerticalCenter" />
+                        <Text Value="Økonomi" Dock="Top" Margin="7, 5, 0, 0" FontSize="32" TextWrapping="Wrap" Padding="0, 0, 0, 0" Font="SluttaMedium" Alignment="VerticalCenter" />
+                    </StackPanel>
+                    <Text Value="Du har nå spart ca. kr {moneySavedChosenPretty} (etter {dayspassed}, hvis én {type} koster {pricePerUnitPretty} kr). For dette beløpet får du:" TextAlignment="Left" Margin="5,5,5,15" Padding="0, 4, 4, 0" FontSize="16" TextWrapping="Wrap" />
+                    <Grid Columns="4*, 1*, 4*, 1*, 4*" Margin="5, 5, 5, 15">
+                        <StackPanel>
+                            <Text TextAlignment="Center" Value="." Opacity="0" FontSize="12" Color="Gray" Margin="0,0,0,15" />
+                            <Text TextAlignment="Center" TextWrapping="Wrap" Value="{reward1}" Margin="0,0,0,10" Padding="5" FontSize="14"/>
+                        </StackPanel>
+                        <Rectangle Color="#f6303e" Width="1" Margin="0" Padding="0" />
+                        <StackPanel>
+                            <Text TextAlignment="Center" Value="eller" FontSize="12" Color="Gray" Margin="0,0,0,15" />
+                            <Text TextAlignment="Center" TextWrapping="Wrap" Value="{reward2}" Margin="0,0,0,10" FontSize="14" />
+                        </StackPanel>
+                        <Rectangle Color="#f6303e" Width="1" />
+                        <StackPanel>
+                            <Text TextAlignment="Center" Value="eller" FontSize="12" Color="Gray" Margin="0,0,0,15" />
+                            <Text TextAlignment="Center" TextWrapping="Wrap" Value="{reward3}" Margin="0,0,0,10" FontSize="14" />
+                        </StackPanel>
+                    </Grid>
+                    <Rectangle Color="SluttaBlue" Padding="15" Margin="5, 0, 0, 0">
+                        <Text Color="White" FontSize="16" TextWrapping="Wrap" TextAlignment="Left" Value="{featuredOkonomiFact}" />
+                    </Rectangle>
+
+                    <!-- only show this section if moneysaved is above 0 -->
+                    <WhileTrue Value="{moneySavedChosen} > 0">
+                        <Text Value="Fortsett den gode jobben, og se hvor mange penger du sparer:" TextAlignment="Left" Margin="5,17,5,10" FontSize="16" TextWrapping="Wrap" />
+                        <Grid ColumnCount="2">
+                            <Each Items="{notes}">
+                                    <Image File="{link}" Margin="10" />
+                            </Each>
+                        </Grid>
+                        <Grid ColumnCount="4">
+                            <Each Items="{coins}">
+                                    <Image File="{link}" Margin="10" />
+                            </Each>
+                        </Grid>
+                    </WhileTrue>
+
+                </StackPanel>
+            </StackPanel>
+
+        </ScrollView>
+
+    </DockPanel>
+</Page>

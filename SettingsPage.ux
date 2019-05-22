@@ -1,0 +1,337 @@
+<Page ux:Class="SettingsPage">
+    <Router ux:Dependency="depRouter" />
+    <JavaScript File="SettingsPage.js" />
+    <JavaScript File="UserTimeObservables.js" />
+    <JavaScript File="PickerChoices.js" />
+
+    <Activated>
+		<Callback Handler="{onActivated}" />
+	</Activated>
+
+    <ModalDatePicker ux:Name="SmokeDatePicker" Date="{userData.smokeFreeSince}" MinDate="{minDate}" MaxDate="{maxDate}" />
+    <ModalDatePicker ux:Name="SnusDatePicker" Date="{userData.snusFreeSince}" MinDate="{minDate}" MaxDate="{maxDate}" />
+
+
+    <Picker ux:Name="CigDailyNumberPicker" Entries="{AntallSigaretter}" Current="{userData.dailyCigarettes}" />
+    <Picker ux:Name="SnusDailyNumberPicker" Entries="{AntallSnus}" Current="{userData.dailySnus}" />
+
+    <Picker ux:Name="CigPrisPicker" Entries="{PrisSigaretter}" Current="{userData.pricePerCigarette}" />
+    <Picker ux:Name="SnusPrisPicker" Entries="{PrisSnus}" Current="{userData.pricePerSnus}" />
+
+    <Picker ux:Name="CigReasonPicker" Entries="{Reason}" Current="{userData.quitSmokingReason}" />
+    <Picker ux:Name="SnusReasonPicker" Entries="{SnusReason}" Current="{userData.quitSnusReason}" />
+
+    <DockPanel Dock="Top" Color="#EFEFF4">
+        <StackPanel Dock="Top">
+            <!-- nav bar -->
+            <DockPanel Color="White" Height="50" Padding="0,0,10,0">
+                <Shadow ux:Name="RectangleShadow" Size="10" Distance="1"/>
+                <Panel HitTestMode="LocalBoundsAndChildren" Dock="Left"
+                       Tapped="{returnAndLoad}">
+                    <Image File="Assets/backArrow.png" Margin="12"/>
+                    <Tapped>
+                        <Scale Factor="1.5" Duration="0.2" />
+                    </Tapped>
+                </Panel>
+                <Text Dock="Left" Value="Tilbake" Margin="5,5,5,5" FontSize="16" Alignment="Center" TextAlignment="Left" />
+                <StackPanel HitTestMode="LocalBoundsAndChildren" Dock="Right"
+                       Tapped="{returnAndSave}" Orientation="Horizontal">
+                    <Text Value="Lagre" Margin="5,5,5,5" FontSize="16" Alignment="Center" TextAlignment="Left" Tapped="{returnAndSave}" />
+                    <Image File="Assets/ic_done_black_48dp.png" Margin="7" />
+                    <Tapped>
+                        <Scale Factor="1.5" Duration="0.2" />
+                    </Tapped>
+                </StackPanel>
+            </DockPanel>
+        </StackPanel>
+
+        <StackPanel Dock="Top" ClipToBounds="True" Color="#fff">
+                <StackPanel Padding="20">
+                    <Text Value="Velkommen!" Color="#444" Font="SluttaMedium" FontSize="36" />
+                    <Text TextWrapping="Wrap" Color="Black" Margin="0,5,0,0" FontSize="16" TextAlignment="Left">
+                        Appen er din personlige motivator. Å bli tobakksfri kan være lettere enn du tror!
+                    </Text>
+                </StackPanel>
+            <Rectangle Color="#eee" Height="1" />
+        </StackPanel>
+
+        <ScrollView>
+            <StackPanel>
+
+                <StackPanel Color="#fff" Margin="0, 0, 0, 40">
+                    <Text Value="Jeg" Color="SluttaRed" FontSize="18" Margin="20, 15, 20, 15" />
+                    <Rectangle Color="SluttaRed" Height="1" />
+                    <DockPanel Margin="20, 5, 20, 5">
+                            <Text Value="Røyker" Color="Black" FontSize="16" Margin="0, 10, 0, 10"
+                              Dock="Left" />
+                            <MySwitch ux:Name="dotheysmoke" Dock="Right" Value="{userData.smokes}" Clicked="{resetSmokeSince}" />
+                    </DockPanel>
+
+                    <Rectangle Height="1" Color="#ddd" />
+                    <DockPanel Margin="20, 5, 20, 5">
+                            <Text Value="Snuser" Color="Black" FontSize="16" Margin="0, 10, 0, 10"
+                              Dock="Left" />
+                            <MySwitch Dock="Right" Value="{userData.snus}" Clicked="{resetSnusSince}"/>
+                    </DockPanel>
+                </StackPanel>
+
+
+                <WhileTrue Value="{userData.smokes}">
+
+                    <StackPanel Color="#fff" Margin="0, 0, 0, 40">
+                        <Text Value="Mine vaner - Røyk" Color="SluttaRed" FontSize="18" Margin="20, 15, 20, 15" />
+                        <Rectangle Color="SluttaRed" Height="1" />
+                        <DockPanel Margin="20, 15, 20, 15" HitTestMode="LocalBounds">
+                            <Grid Columns="3*, 1*">
+                                <Text Value="Antall sigaretter daglig" Color="Black" FontSize="16" Margin="0" Alignment="VerticalCenter"
+                                      TextWrapping="Wrap" Dock="Left" />
+                                <Text Value="{userData.dailyCigarettes.NameEn}" Color="Gray" FontSize="16" Margin="0"
+                                      Dock="Right" Alignment="Right" TextAlignment="Right" />
+                            </Grid>
+                            <Tapped>
+                                <Set Target="CigDailyNumberPicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+                        <Rectangle Height="1" Color="#ddd" />
+
+                        <DockPanel Margin="20, 15, 20, 15" HitTestMode="LocalBounds">
+                            <Grid Columns="3*, 1*">
+                                <Text Value="Pris per sigarett" Color="Black" FontSize="16" Margin="0" Alignment="VerticalCenter"
+                                      TextWrapping="Wrap" Dock="Left" />
+                                <Text Value="{userData.pricePerCigarette.NameEn}" Color="Gray" FontSize="16" Margin="0"
+                                      Dock="Right" Alignment="Right" TextAlignment="Right" />
+                            </Grid>
+                            <Tapped>
+                                <Set Target="CigPrisPicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+
+                        <Rectangle Height="1" Color="#ddd" />
+
+                        <DockPanel Margin="20, 15, 20, 15" HitTestMode="LocalBounds">
+                            <Grid Columns="2*, 1*">
+                                <Text Value="Røykfri siden" Color="Black" FontSize="16" Margin="0"
+                                      Dock="Left" />
+                                <DockPanel Dock="Right">
+                                    <Text Value="{smokeFreeSincePretty}" Color="Gray" FontSize="16" Margin="0"
+                                          Dock="Right" />
+                                </DockPanel>
+                            </Grid>
+                            <Tapped>
+                                <Set Target="SmokeDatePicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+
+                        <Rectangle Height="1" Color="#ddd" />
+
+                        <DockPanel Margin="20, 15, 20, 15" HitTestMode="LocalBounds">
+                            <Grid Columns="3*, 2*">
+                                <Text Value="Jeg slutter på grunn av:" Color="Black" FontSize="16" Margin="0" Alignment="VerticalCenter"
+                                      TextWrapping="Wrap" Dock="Left" />
+                                <Text Value="{userData.quitSmokingReason.NameEn}" Color="Gray" FontSize="16" Margin="0"
+                                      Dock="Right" Alignment="Right" TextAlignment="Right" />
+                            </Grid>
+                            <Tapped>
+                                <Set Target="CigReasonPicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+                    </StackPanel>
+
+                </WhileTrue>
+
+
+
+                <WhileTrue Value="{userData.snus}">
+                    <StackPanel Color="#fff" Margin="0, 0, 0, 40">
+                        <Text Value="Mine vaner - Snus" Color="SluttaRed" FontSize="18" Margin="20, 15, 20, 15" />
+                        <Rectangle Color="SluttaRed" Height="1" />
+
+                        <DockPanel Margin="20, 15, 20, 15" HitTestMode="LocalBounds">
+                            <Grid Columns="3*, 1*">
+                                <Text Value="Antall snus daglig" Color="Black" FontSize="16" Margin="0" Alignment="VerticalCenter"
+                                      TextWrapping="Wrap" Dock="Left" />
+                                <Text Value="{userData.dailySnus.NameEn}" Color="Gray" FontSize="16" Margin="0"
+                                      Dock="Right" Alignment="Right" TextAlignment="Right" />
+                            </Grid>
+                            <Tapped>
+                                <Set Target="SnusDailyNumberPicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+
+                        <Rectangle Height="1" Color="#ddd" />
+
+                        <DockPanel Margin="20, 15, 20, 15" HitTestMode="LocalBounds">
+                            <Grid Columns="3*, 1*">
+                                <Text Value="Pris per snus" Color="Black" FontSize="16" Margin="0" Alignment="VerticalCenter"
+                                      TextWrapping="Wrap" Dock="Left" />
+                                <Text Value="{userData.pricePerSnus.NameEn}" Color="Gray" FontSize="16" Margin="0"
+                                      Dock="Right" Alignment="Right" TextAlignment="Right" />
+                            </Grid>
+                            <Tapped>
+                                <Set Target="SnusPrisPicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+
+                        <Rectangle Height="1" Color="#ddd" />
+
+                        <DockPanel Margin="20, 15, 20, 15" HitTestMode="LocalBounds">
+                            <Grid Columns="2*, 1*">
+                                <Text Value="Snusfri siden" Color="Black" FontSize="16" Margin="0"
+                                      Dock="Left" />
+                                <DockPanel Dock="Right">
+                                    <Text Value="{snusFreeSincePretty}" Color="Gray" FontSize="16" Margin="0"
+                                          Dock="Right" />
+                                </DockPanel>
+                            </Grid>
+                            <Tapped>
+                                <Set Target="SnusDatePicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+
+                        <Rectangle Height="1" Color="#ddd" />
+
+                        <DockPanel Margin="20, 15, 20, 15" HitTestMode="LocalBounds">
+                            <Grid Columns="3*, 2*">
+                                <Text Value="Jeg slutter på grunn av:"
+                                      TextWrapping="Wrap" Color="Black" FontSize="16"
+                                      Dock="Left"/>
+                                <Text Value="{userData.quitSnusReason.NameEn}" Color="Gray" FontSize="16" Margin="0" Dock="Right"
+                                      Alignment="Right" TextAlignment="Right" />
+                            </Grid>
+                            <Tapped>
+                                <Set Target="SnusReasonPicker.IsOpen" Value="true" />
+                            </Tapped>
+                        </DockPanel>
+                    </StackPanel>
+                </WhileTrue>
+
+
+
+                <StackPanel Color="#fff" Margin="0, 0, 0, 40">
+                    <Text Value="Bakgrunnsspeil" Color="SluttaRed" FontSize="18" Margin="20, 15, 20, 15" />
+                    <Rectangle Color="SluttaRed" Height="1" />
+                    <DockPanel Margin="20, 5, 20, 5">
+                        <Grid Columns="4*, 1*">
+                            <Text Value="Tillat bruk av kamera til bakgrunn" Color="Black" FontSize="16" Margin="0, 10, 0, 10"
+                              Dock="Left" TextWrapping="Wrap" />
+                            <DockPanel>
+                                <MySwitch ux:Name="camerabackground" Dock="Right" Value="{userData.allowCameraBackground}" />
+                            </DockPanel>
+                        </Grid>
+                    </DockPanel>
+                </StackPanel>
+
+
+                <StackPanel Color="#fff" Margin="0, 0, 0, 40">
+                    <Text Value="Info" Color="SluttaRed" FontSize="18" Margin="20, 20, 20, 16" />
+                    <Rectangle Color="SluttaRed" Height="1" />
+                    <StackPanel Margin="10, 10, 10, 20">
+                        <Text Color="Black" FontSize="16" Margin="10, 10" TextWrapping="Wrap"
+                                  Value="Ønsker du ikke å motta pushmeldinger lenger? Dette kan skrus av i telefonens innstillinger." />
+                        <Text Color="Black" FontSize="16" Margin="10, 10, 10, 30" TextWrapping="Wrap"
+                                  Value="Husk at meldingene du får er ment å være motiverende. Vi anbefaler derfor at varsling er på." />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Color="#fff" Margin="0">
+                    <Text Value="Personvern" Color="SluttaRed" FontSize="18" Margin="20, 20, 20, 16" />
+                    <Rectangle Color="SluttaRed" Height="1" />
+                    <StackPanel Margin="10, 10, 10, 20">
+                        <Text Color="Black" FontSize="16" Margin="10, 10" TextWrapping="Wrap"
+                                  Value="1.0 App-eier (dataeier):" />
+                        <Text Color="Black" FontSize="16" Margin="10, 10, 10, 0" TextWrapping="Wrap"
+                                  Value="Helsedirektoratet" />
+                        <Text Color="Black" FontSize="16" Margin="10, 00" TextWrapping="Wrap"
+                                  Value="Pb. 220 Skøyen" />
+                        <Text Color="Black" FontSize="16" Margin="10, 00, 10, 10" TextWrapping="Wrap"
+                                  Value="0213 Oslo" />
+
+                        <Rectangle Height="1" Color="#ddd" Margin="0, 10" />
+
+                        <Text Color="Black" FontSize="16" Margin="10, 10" TextWrapping="Wrap"
+                                  Value="2.0 Visualisering av dine sluttedata" />
+                        <Text Color="Black" FontSize="16" Margin="10, 10" TextWrapping="Wrap"
+                                  Value="Slutta appen sin kjernefunksjonalitet baserer seg på brukerens innlasting av sluttedato samt antall røyk/snus og prisen av disse. På bakgrunn av disse dataene vil appen automatisk oppdatere antall dager røyk-/snusfri, antall kroner spart samt mengde giftstoffer man har unngått. I tillegg vil vi sende ut motiverende meldinger basert på hvor mange dager du har vært røyk-/snusfri." />
+
+                        <Rectangle Height="1" Color="#ddd" Margin="0, 10" />
+
+                        <Text Color="Black" FontSize="16" Margin="10, 10" TextWrapping="Wrap"
+                                Value="3.0 Informasjonskapsler " />
+                        <Text Color="Black" FontSize="16" Margin="10, 10" TextWrapping="Wrap"
+                                Value="Som de fleste nettsider og apper har vi informasjonskapsler plassert i Slutta appen. Formålet med disse er å kunne gi en bedre brukeropplevelse basert på hvordan appen brukes. Vi sparer ikke på andre data enn det bruker selv har gitt (sluttedato). Det er ingen personlige data lagret i appen." />
+                        <Text Color="Black" FontSize="16" Margin="10, 10" TextWrapping="Wrap"
+                                Value="I tillegg benytter vi informasjonskapsler for å effektivisere annonseringen av appen, og måle hvor brukeren kommer fra." />
+                        <Text Color="Black" FontSize="16" Margin="10, 10" TextWrapping="Wrap"
+                                Value="Våre data blir ikke delt med andre tredjepartsaktører utover det vi beskriver under." />
+                        <Text Color="Black" FontSize="16" Margin="10, 10" TextWrapping="Wrap"
+                                Value="For å analysere bruken av appen benytter vi oss av ulike analyseverktøy som beskrevet i punktene 3.1, 3.2 og 3.3." />
+
+                        <Rectangle Height="1" Color="#ddd" Margin="0, 10" />
+
+                        <Text Color="Black" FontSize="16" Margin="10, 10" TextWrapping="Wrap"
+                            Value="3.1 Firebase" />
+                        <Text Color="Black" FontSize="16" Margin="10, 10" TextWrapping="Wrap"
+                            Value="Vi benytter Firebase for å måle hvilke deler av appen som brukes. Vi bruker denne innsikten til å oppgradere appen for å gi brukeren et bedre slutteverktøy. " />
+                        <Text ux:Name="firebaselink" Color="SluttaBlue" Font="Bold" FontSize="15" Margin="10, 5, 10, 10" TextWrapping="Wrap"
+                                Value="www.firebase.com">
+                            <WhilePressed>
+                                <Change firebaselink.Color="SluttaLighterBlue" Duration="0.1" DurationBack="0.1" />
+                            </WhilePressed>
+                            <Clicked>
+                                <LaunchUri Uri="http://www.firebase.com" />
+                            </Clicked>
+                        </Text>
+
+                        <Rectangle Height="1" Color="#ddd" Margin="0, 10" />
+
+                        <Text Color="Black" FontSize="16" Margin="10, 10" TextWrapping="Wrap"
+                            Value="3.2 Adform" />
+                        <Text Color="Black" FontSize="16" Margin="10, 10" TextWrapping="Wrap"
+                            Value="Adform er et annonsestyringsverktøy vi bruker for å promotere appen og som gir oss innsikt i hvor brukeren kommer fra." />
+                        <Text ux:Name="adformlink" Color="SluttaBlue" Font="Bold" FontSize="15" Margin="10, 5, 10, 10" TextWrapping="Wrap"
+                                Value="www.adform.com">
+                            <WhilePressed>
+                                <Change adformlink.Color="SluttaLighterBlue" Duration="0.1" DurationBack="0.1" />
+                            </WhilePressed>
+                            <Clicked>
+                                <LaunchUri Uri="http://www.adform.com" />
+                            </Clicked>
+                        </Text>
+
+                        <Rectangle Height="1" Color="#ddd" Margin="0, 10" />
+
+                        <Text Color="Black" FontSize="16" Margin="10, 10" TextWrapping="Wrap"
+                            Value="3.3 Facebook analytics" />
+                        <Text Color="Black" FontSize="16" Margin="10, 10" TextWrapping="Wrap"
+                            Value="Vi promoterer appen gjennom Facebook. På samme måte som Adform gir Facebook analytics oss innsikt i bruken og nedlasting av appen." />
+                        <Text ux:Name="fbprivacy" Color="SluttaBlue" Font="Bold" FontSize="15" Margin="10, 5, 10, 10" TextWrapping="Wrap"
+                                Value="www.facebook.com/about/privacy/">
+                            <WhilePressed>
+                                <Change fbprivacy.Color="SluttaLighterBlue" Duration="0.1" DurationBack="0.1" />
+                            </WhilePressed>
+                            <Clicked>
+                                <LaunchUri Uri="http://www.facebook.com/about/privacy/" />
+                            </Clicked>
+                        </Text>
+
+                        <Rectangle Height="1" Color="#ddd" Margin="0, 10" />
+
+                        <Text Color="Black" FontSize="16" Margin="10, 0" TextWrapping="Wrap"
+                            Value="Har du spørsmål vedrørende personvern eller om denne appen vennligst ta kontakt ved å sende e-post til:" />
+                        <Text ux:Name="kontaktslutta" Color="SluttaBlue" Font="Bold" FontSize="15" Margin="10, 5, 10, 10" TextWrapping="Wrap"
+                                Value="kontaktslutta@helsedir.no">
+                            <WhilePressed>
+                                <Change kontaktslutta.Color="SluttaLighterBlue" Duration="0.1" DurationBack="0.1" />
+                            </WhilePressed>
+                            <Clicked>
+                                <LaunchUri Uri="mailto:kontaktslutta@helsedir.no" />
+                            </Clicked>
+                        </Text>
+
+                    </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollView>
+    </DockPanel>
+</Page>

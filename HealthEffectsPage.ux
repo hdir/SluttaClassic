@@ -1,0 +1,44 @@
+<Page ux:Class="HealthEffectsPage">
+    <Router ux:Dependency="depRouter" />
+    <JavaScript File="HealthEffects.js" />
+
+    <DockPanel>
+        <CommonNavBar router="depRouter" Dock="Top" PrevTitle="Tilbake" />
+        <StackPanel Dock="Top">
+            <!-- The tab buttons -->
+            <DockPanel Height="60" Margin="10,10,10,10">
+                <Rectangle ux:Name="røykPanel" Width="50%" Dock="Left" Color="White" CornerRadius="10, 0, 0, 10"
+                           Tapped="{smokePage}">
+                    <Stroke Width="1" Color="SluttaRed"/>
+                    <Text ux:Name="røykPanelText" Value="RØYK" Alignment="Center" Font="Bold" FontSize="14" />
+                    <Tapped>
+                        <Set Target="healthTabPages.ActiveIndex" Value="0" />
+                    </Tapped>
+                </Rectangle>
+                <Rectangle ux:Name="snusPanel" Width="50%" Dock="Left" Color="White" CornerRadius="0, 10, 10, 0"
+                           Tapped="{snusPage}">
+                    <Stroke Width="1" Color="SluttaRed"/>
+                    <Text ux:Name="snusPanelText" Value="SNUS" Alignment="Center"  Font="Bold" FontSize="14" />
+                    <Tapped>
+                        <Set Target="healthTabPages.ActiveIndex" Value="1" />
+                    </Tapped>
+                </Rectangle>
+            </DockPanel>
+            <!-- This contains the pages we swipe and control with the tab buttons -->
+            <PageControl ux:Name="healthTabPages" Active="{currentPage}">
+                <ListNavGenerator ux:Name="healthTabRoyk" router="depRouter" Entries="{healthEffectSmoking}">
+                    <WhileActive>
+		                <Change røykPanel.Color="SluttaRed" Duration="0.2"/>
+		                <Change røykPanelText.Color="White" Duration="0.2"/>
+                    </WhileActive>
+                </ListNavGenerator>
+                <ListNavGenerator ux:Name="healthTabSnus" router="depRouter" Entries="{healthEffectSnus}">
+                    <WhileActive>
+		                <Change snusPanel.Color="SluttaRed" Duration="0.2"/>
+		                <Change snusPanelText.Color="White" Duration="0.2"/>
+                    </WhileActive>
+                </ListNavGenerator>
+            </PageControl>
+        </StackPanel>
+    </DockPanel>
+</Page>

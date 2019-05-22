@@ -1,0 +1,4 @@
+<Text ux:Class="TimerText"
+      Font="Bold"
+      Alignment="Center"
+      Color="Black" />

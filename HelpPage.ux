@@ -1,0 +1,108 @@
+<Page ux:Class="HelpPage">
+    <Router ux:Dependency="depRouter" />
+    <JavaScript File="HelpPage.js" />
+
+    <Activated>
+        <Callback Handler="{cycleRandomBg}" />
+    </Activated>
+
+    <WhileTrue Value="{popup_visible}">
+        <StackPanel Alignment="Center" Width="250">
+            <Rectangle Width="100%" CornerRadius="15" Fill="#fefefe" ClipToBounds="true">
+                <DropShadow Size="15" Distance="5" Spread="0.1" Color="#0004" Angle="90" />
+                <StackPanel ClipToBounds="true">
+                    <!--  this text should be one of a random selection stored somewhere -->
+                    <Text Width="100%" TextWrapping="Wrap" Value="{approval_message}" TextAlignment="Center" Margin="20" TextColor="Black" FontSize="16" />
+                    <Rectangle Height="1" Color="#ddd" />
+                    <!--  button to close popup and continue as before -->
+                    <BoldButton Width="100%" Text="Ok" TextColor="SluttaBlue" TextHoverColor="SluttaLightBlue" CornerRadius="0,0,15,15" BackgroundColor="#ffffffff" BackgroundHoverColor="#efefefff" Alignment="Center" Tapped="{hideApprovalPopup}" />
+                </StackPanel>
+            </Rectangle>
+        </StackPanel>
+    </WhileTrue>
+
+    <WhileTrue Value="{popup_visible_reset}">
+        <StackPanel Alignment="Center" Width="90%">
+            <Rectangle Width="100%" CornerRadius="15" Fill="#fefefe">
+                <DropShadow Size="15" Distance="5" Spread="0.1" Color="#0004" Angle="90" />
+                <StackPanel ClipToBounds="true" Width="100%">
+                    <!--  this text should be one of a random selection stored somewhere -->
+                    <Text Width="100%" TextWrapping="Wrap" Value="{fortsett_message}" TextAlignment="Center" Margin="20" TextColor="Black" FontSize="16" />
+                    <Rectangle Height="1" Color="#ddd" />
+                    <!--  buttons to close popup or close and continue to next message -->
+                    <Grid Columns="49.5*, 1*, 49.5*" Width="100%" ClipToBounds="true">
+                        <!-- NO takes you to the reset page and resets your data -->
+                        <BoldButton Dock="Left" Width="100%" Text="Nei" TextColor="SluttaBlue" TextHoverColor="SluttaLightBlue" CornerRadius="0,0,0,15" BackgroundColor="#ffffff" BackgroundHoverColor="#efefef" Alignment="Center" Tapped="{hideResetPopup}" />
+                        <Rectangle Width="1" Color="#ddd" Margin="0" />
+                        <BoldButton Dock="Right" Width="100%" Text="Ja" TextColor="SluttaBlue" TextHoverColor="SluttaLightBlue" CornerRadius="0,0,15,0" BackgroundColor="#ffffff" BackgroundHoverColor="#efefef" Alignment="Center" Tapped="{hideResetPopup_ShowFortsett}" />
+                    </Grid>
+                </StackPanel>
+            </Rectangle>
+        </StackPanel>
+    </WhileTrue>
+
+    <WhileTrue Value="{popup_visible_fortsett}">
+        <StackPanel Alignment="Center" Width="250">
+            <Rectangle Width="100%" CornerRadius="15" Fill="#fefefe" ClipToBounds="true">
+                <DropShadow Size="15" Distance="5" Spread="0.1" Color="#0004" Angle="90" />
+                <StackPanel ClipToBounds="true">
+                    <!--  this text should be one of a random selection stored somewhere -->
+                    <Text Width="100%" TextWrapping="Wrap" Value="{fortsett_message_2}" TextAlignment="Center" Margin="20" TextColor="Black" FontSize="16" />
+                    <Rectangle Height="1" Color="#ddd" />
+                    <!--  button to close popup and continue as before -->
+                    <BoldButton Dock="Right" Width="100%" Text="Ok" TextColor="SluttaBlue" TextHoverColor="SluttaLightBlue" CornerRadius="0,0,15,15" BackgroundColor="#ffffff" BackgroundHoverColor="#efefef" Alignment="Center" Tapped="{hideFortsettPopup}" />
+                </StackPanel>
+            </Rectangle>
+        </StackPanel>
+    </WhileTrue>
+
+    <WhileTrue Value="{modal_visible}">
+        <Rectangle Color="#fefefe" Opacity="0.5" />
+    </WhileTrue>
+
+    <DockPanel>
+        <CommonNavBar router="depRouter" Dock="Top" PrevTitle="Tilbake" />
+        <StackPanel Padding="0,0,0,5" Dock="Top">
+
+            <!-- The blue arrow box -->
+            <StackPanel Margin="15, 4, 15, 15">
+                <Image File="Assets/arrow.png" Width="20" />
+                <Rectangle Color="SluttaBlue" Padding="15" CornerRadius="3">
+                    <Activated>
+                        <Callback Handler="{onActivated}" />
+                    </Activated>
+                    <Text Color="White" FontSize="18" TextWrapping="Wrap" TextAlignment="Left" Value="{help_message}" />
+                </Rectangle>
+            </StackPanel>
+
+            <Rectangle Height="1" Color="#ddd" />
+
+            <ListItem Tapped="{gotoMoreTips}">
+                <ListText Value="Flere råd og tips" />
+            </ListItem>
+
+            <Rectangle Height="1" Color="#ddd" />
+
+            <ListItem Tapped="{gotoStressed}">
+                <ListText Value="Stressa?" />
+            </ListItem>
+
+            <Rectangle Height="1" Color="#ddd" />
+        </StackPanel>
+
+        <StackPanel Color="White" Dock="Bottom" Padding="0" Width="100%">
+            <Text TextWrapping="Wrap" TextAlignment="Center" FontSize="16" Margin="12">
+                Har du tatt en sigarett eller en snus etter du startet programmet?
+            </Text>
+            <Rectangle Height="1" Color="#dddddd33" />
+            <Grid ColumnCount="2" Width="100%">
+                <BasicButton Width="100%" Text="Nei" TextColor="SluttaBlue" BackgroundHoverColor="#efefef" BackgroundColor="#ffffff" FontSize="18" Alignment="Center" Tapped="{showApprovalPopup}" />
+                <BasicButton Width="100%" Text="Ja" TextColor="Red" BackgroundHoverColor="#efefef" BackgroundColor="#ffffff" FontSize="18" Alignment="Center" Tapped="{showResetPopup}" />
+            </Grid>
+        </StackPanel>
+    </DockPanel>
+
+    <Rectangle>
+        <ImageFill File="{randomBg}" StretchMode="Fill" Opacity="0.6" />
+    </Rectangle>
+</Page>

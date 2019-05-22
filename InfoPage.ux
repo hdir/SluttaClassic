@@ -1,0 +1,61 @@
+<Page ux:Class="InfoPage">
+    <Router ux:Dependency="depRouter" />
+    <JavaScript File="InfoPage.js" />
+
+    <DockPanel>
+        <CommonNavBar router="depRouter" Dock="Top" PrevTitle="{info.prevtitle}" />
+        <ScrollView Margin="10,15,20,20" >
+            <StackPanel>
+                <Text Value="{info.name}" Dock="Top" Margin="5,0,0,5"
+                    FontSize="36" TextWrapping="Wrap" Padding="0, 4, 4, 4" Color="#444" Font="SluttaMedium" />
+                <Each Items="{info.textnodes}" Limit="100">
+                    <StackPanel Dock="Top" Margin="0,0,0,5">
+                        <WhileString Value="{title}" Equals="" Invert="true">
+                            <Text Value="{title}" Dock="Top" Margin="5,5,5,5"
+                                      FontSize="26" TextWrapping="Wrap" Padding="0, 4, 4, 0" Font="SluttaMedium" />
+                        </WhileString>
+                        <WhileString Value="{innertext}" Equals="" Invert="true">
+                            <Text Value="{innertext}" Dock="Top" Margin="5,5,5,10"
+                                      FontSize="18" TextWrapping="Wrap"  LineSpacing="3"/>
+                        </WhileString>
+                        <Each Items="{listitems}" Limit="100">
+                            <Panel Dock="Top" Margin="5,5,5,5" Padding="0,5,10,5">
+                                <Each Items="{item}" Limit="100">
+                                    <StackPanel Dock="Top" Alignment="Left" Margin="2,0,5,5">
+                                        <Text Font="SluttaMedium" Value="{bold}" TextAlignment="Left"
+                                            FontSize="19" TextWrapping="Wrap" />
+                                        <Text Value="{normal}" TextAlignment="Left" Margin="0,7,0,0"
+                                            FontSize="18" TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Each>
+                            </Panel>
+                        </Each>
+                        <Each Items="{dottedlistitems}" Limit="100">
+                            <Panel Dock="Top" Margin="5,5,5,5" Padding="0,5,10,5">
+                                <StackPanel Dock="Top">
+                                    <Circle Color="#444" Height="5" Width="5" Alignment="Left"  Margin="2,8,5,5" />
+                                </StackPanel>
+                                <StackPanel Dock="Top" Alignment="Left" Margin="10,0,5,5">
+                                    <Text Value="{item}" TextAlignment="Left" Margin="8,0,0,0"
+                                        FontSize="18" TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Panel>
+                        </Each>
+                        <Each Items="{numberedlistitems}" Limit="100">
+                            <Panel Dock="Top" Margin="5,5,5,5" Padding="0,5,10,5">
+                                <StackPanel Dock="Top">
+                                    <Text Value="{= index() + 1}." />
+                                </StackPanel>
+                                <StackPanel Dock="Top" Alignment="Left" Margin="10,0,5,5">
+                                    <Text Value="{item}" TextAlignment="Left" Margin="8,0,0,0"
+                                        FontSize="18" TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Panel>
+                        </Each>
+                    </StackPanel>
+                </Each>
+            </StackPanel>
+        </ScrollView>
+
+    </DockPanel>
+</Page>

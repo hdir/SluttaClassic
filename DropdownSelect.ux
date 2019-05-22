@@ -1,0 +1,71 @@
+<Rectangle ux:Class="RedBox" CornerRadius="3" Color="#f6303e" IconColor="#f6303e"
+           StrokeColor="#f6303e" StrokeWidth="2" Margin="0" Alignment="Top">
+   <object ux:Property="Options"/>
+   <object ux:Property="Selected"/>
+   <float4 ux:Property="IconColor" />
+   <string ux:Property="Icon" />
+     <JavaScript>
+       var Observable = require("FuseJS/Observable");
+       var self = this;
+       var Options = self.Options.inner();
+       var selected = self.Selected.inner();
+       var isOpen = Observable(false);
+       module.exports = {
+          isOpen:isOpen,
+          Options:Options.map(function(option){
+             return{
+                title:option,
+                isSelected:Observable(function(){
+                   return selected.value === option;
+                }),
+                Clicked:function(){
+                   selected.value = option;
+                   if(self.Selected.value instanceof Observable)
+                   {
+                      self.Selected.value.value = option;
+                   }
+                   isOpen.value=false;
+                }
+             }
+          }),
+          selected:selected,
+          toggleOpen:function(){
+             isOpen.value =! isOpen.value;
+          }
+       }
+    </JavaScript>
+    <Panel ux:Name="header" Clicked="{toggleOpen}" HitTestMode="LocalBoundsAndChildren">
+       <Text Alignment="CenterLeft" ux:Name="Select" Margin="30,9" Color="White" Value="{selected.NameEn}" />
+       <Text Alignment="CenterLeft" ux:Name="IconErr" Margin="9" Color="{ReadProperty IconColor}" FontSize="16"
+             Value="{Property Icon}" Font="Bold" />
+       <Text Value="&#xE5C5;" Font="MaterialIcons" Color="White" FontSize="30"
+             Alignment="CenterRight" Margin="0, 0, 5, 0" />
+       <WhilePressed>
+          <Change header.Color="#bbb" Duration="1" />
+       </WhilePressed>
+    </Panel>
+    <Panel ux:Name="dropdown" LayoutRole="Inert" Alignment="Top" MaxHeight="300">
+       <Translation RelativeTo="Size" RelativeNode="this" Y="1" />
+       <ScrollView>
+          <StackPanel>
+             <Each Items="{Options}">
+                <Rectangle ux:Name="item" Color="{ReadProperty IconColor}" CornerRadius="3" Clicked="{Clicked}">
+                   <Stroke Offset="1" Color="#fff" Width="1"/>
+                   <Text Margin="10" Value="{title.NameEn}" Color="#fff" />
+                   <WhilePressed>
+                      <Change item.Color="#f64e5a" Duration="0.05" DurationBack="0.1" />
+                   </WhilePressed>
+                   <WhileTrue Value="{isSelected}">
+                      <Change item.Color="#f64e5a" />
+                   </WhileTrue>
+                </Rectangle>
+             </Each>
+          </StackPanel>
+       </ScrollView>
+       <WhileFalse Value="{isOpen}">
+          <Change dropdown.Opacity="0" Duration="0.15" Easing="CubicOut" />
+          <Change dropdown.Visibility="Hidden" Delay="0.2" />
+          <Move Y="-300" Duration="0.2" Easing="CubicIn" />
+       </WhileFalse>
+    </Panel>
+  </Rectangle>

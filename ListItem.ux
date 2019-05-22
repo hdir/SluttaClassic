@@ -1,0 +1,10 @@
+<DockPanel ux:Class="ListItem" Color="#ffffff00" HoverColor="#ffffff99" Padding="15, 8, 15, 8">
+    <string ux:Property="HoverColor" />
+    <Text ux:Class="ListText" Margin="5" FontSize="18" Color="#333" />
+    <iOS>
+        <Image File="Assets/right-arrow.png" Dock="Right" Size="15" />
+    </iOS>
+    <WhilePressed>
+       <Change this.Color="{Property this.HoverColor}" Duration="0.1" DurationBack="0.1" />
+    </WhilePressed>
+</DockPanel>

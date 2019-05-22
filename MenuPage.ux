@@ -1,0 +1,58 @@
+<Page ux:Class="MenuPage">
+    <Router ux:Dependency="depRouter" />
+    <JavaScript File="MenuPage.js" />
+
+    <Activated>
+		<Callback Handler="{checkIsSmokingActive}" />
+	</Activated>
+
+    <DockPanel Dock="Top" Color="#EFEFF4">
+
+        <CommonNavBar router="depRouter" Dock="Top" PrevTitle="Tilbake" />
+
+        <ScrollView>
+                <StackPanel Color="#fff">
+                        <Rectangle Height="1" Color="#ddd" />
+
+                        <MenuItem Tapped="{gotoSettings}">
+                            <MenuText Value="Innstillinger" />
+                        </MenuItem>
+
+                        <Rectangle Height="1" Color="#ddd" />
+
+                        <MenuItem Tapped="{gotoPushNotifications}">
+                            <MenuText Value="Arkiv pushmeldinger" />
+                        </MenuItem>
+
+                        <Rectangle Height="1" Color="#ddd" />
+
+                        <WhileTrue Value="{isSmokingActive}">
+                            <MenuItem>
+                                <MenuText Value="Avhengighetstest" />
+                                <Clicked>
+                                    <Callback Handler="{gotoAvhengighetstest}" />
+                                    <LaunchUri Uri="https://www.sigarettavhengighet.no/" />
+                                </Clicked>
+                            </MenuItem>
+
+                            <Rectangle Height="1" Color="#ddd" />
+
+                            <MenuItem>
+                                <MenuText Value="Røykesluttgevinster" />
+                                <Clicked>
+                                    <Callback Handler="{gotoRoykesluttgevinster}" />
+                                    <LaunchUri Uri="http://www.roykesluttgevinster.no/" />
+                                </Clicked>
+                            </MenuItem>
+
+                            <Rectangle Height="1" Color="#ddd" />
+
+                        </WhileTrue>
+
+                </StackPanel>
+
+        </ScrollView>
+
+    </DockPanel>
+
+</Page>

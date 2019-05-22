@@ -1,0 +1,9 @@
+<DockPanel ux:Class="MenuItem" Color="White" Padding="15, 8, 15, 8">
+    <Text ux:Class="MenuText" Margin="5" FontSize="18" />
+    <iOS>
+        <Image File="Assets/right-arrow.png" Dock="Right" Size="15" />
+    </iOS>
+    <WhilePressed>
+       <Change this.Color="#efefef" Duration="0.1" DurationBack="0.1" />
+    </WhilePressed>
+</DockPanel>

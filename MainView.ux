@@ -1,0 +1,44 @@
+<App Background="White">
+    <Router ux:Name="router" />
+    <JavaScript File="MainView.js" />
+
+    <DockPanel Padding="0,0,0,0">
+        <iOS>
+            <StatusBarBackground Dock="Top" Background="White" />
+        </iOS>
+        <Android>
+            <StatusBarBackground Dock="Top" Background="Black" />
+        </Android>
+        <Panel>
+            <JavaScript File="TestPush.js" />
+            <Font File="Assets/Fonts/SluttaMedium.otf" ux:Global="SluttaMedium" />
+            <SystemFont Family="sans-serif" Style="Normal" Weight="Bold" ux:Global="SansBold" />
+            <SystemFont Family="sans-serif" Style="Normal" Weight="Light" ux:Global="SansNormal" />
+            <Font File="Assets/Fonts/MaterialIcons-Regular.ttf" ux:Global="MaterialIcons" />
+
+            <float4 ux:Value="#207384" ux:Global="SluttaBlue" />
+            <float4 ux:Value="#2f8091" ux:Global="SluttaLightBlue" />
+            <float4 ux:Value="#4199ab" ux:Global="SluttaLighterBlue" />
+
+            <float4 ux:Value="#f6303e" ux:Global="SluttaRed" />
+            <float4 ux:Value="#f64e5a" ux:Global="SluttaLightRed" />
+
+            <Navigator DefaultPath="navSplashPage">
+                <SplashPage ux:Template="navSplashPage" depRouter="router" />
+                <OnboardingPage ux:Template="navOnboardingPage" depRouter="router" />
+                <FrontPage ux:Template="navFrontPage" depRouter="router" />
+                <HealthEffectsPage ux:Template="navHealthEffectsPage" depRouter="router" />
+                <DetailsPage ux:Template="navDetailsPage" depRouter="router" />
+                <NotificationArchivePage ux:Template="navNotificationArchivePage" depRouter="router" />
+                <HelpPage ux:Template="navHelpPage" depRouter="router" />
+                <InfoPage ux:Template="navInfoPage" depRouter="router" />
+                <MoreTipsPage ux:Template="navMoreTipsPage" depRouter="router" />
+                <StressedPage ux:Template="navStressedPage" depRouter="router" />
+                <SettingsPage ux:Template="navSettingsPage" depRouter="router" />
+                <MenuPage ux:Template="navMenuPage" depRouter="router" />
+                <SharePage ux:Template="navSharePage" depRouter="router" />
+            </Navigator>
+        </Panel>
+        <BottomBarBackground Dock="Bottom" />
+    </DockPanel>
+</App>

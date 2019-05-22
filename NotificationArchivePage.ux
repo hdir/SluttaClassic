@@ -1,0 +1,81 @@
+<Page ux:Class="NotificationArchivePage">
+    <JavaScript File="NotificationArchivePage.js" />
+    <Router ux:Dependency="depRouter" />
+
+    <Activated>
+		<Callback Handler="{onActivated}" />
+	</Activated>
+
+    <DockPanel>
+        <CommonNavBar router="depRouter" Dock="Top" PrevTitle="Tilbake" />
+        <!-- The tab buttons -->
+        <!-- // do not show  this AT ALL if only one of snus or smoke selected -->
+        <WhileTrue Value="{showSmoke == true && showSnus == true}">
+            <DockPanel Height="60" Margin="10,10,10,10" Dock="Top">
+                <Rectangle ux:Name="røykArchivePanel" Width="50%" Dock="Left" Color="White" CornerRadius="10, 0, 0, 10"
+                           Tapped="{smokeTapped}">
+                    <Stroke Width="1" Color="SluttaRed"/>
+                    <Text ux:Name="røykArchivePanelText" Value="RØYK" Alignment="Center" Font="Bold" FontSize="14" />
+                    <Tapped>
+                        <Set Target="archiveTabPages.ActiveIndex" Value="0" />
+                    </Tapped>
+                </Rectangle>
+                <Rectangle ux:Name="snusArchivePanel" Width="50%" Dock="Left" Color="White" CornerRadius="0, 10, 10, 0"
+                           Tapped="{smokeTapped}">
+                    <Stroke Width="1" Color="SluttaRed"/>
+                    <Text ux:Name="snusArchivePanelText" Value="SNUS" Alignment="Center"  Font="Bold" FontSize="14" />
+                    <Tapped>
+                        <Set Target="archiveTabPages.ActiveIndex" Value="1" />
+                    </Tapped>
+                </Rectangle>
+            </DockPanel>
+        </WhileTrue>
+
+        <!-- This contains the pages we swipe and control with the tab buttons -->
+        <PageControl ux:Name="archiveTabPages" Active="{currentPage}">
+            <WhileTrue Value="{showSmoke == true}">
+                <ScrollView  ux:Name="archiveTabRoyk">
+                    <WhileTrue Value="{showSmoke == true && showSnus == true}">
+                        <WhileActive>
+                            <Change røykArchivePanel.Color="SluttaRed" Duration="0.2"/>
+    		                <Change røykArchivePanelText.Color="White" Duration="0.2"/>
+                        </WhileActive>
+                    </WhileTrue>
+                    <StackPanel Padding="0,10,0,5">
+                        <Each Items="{passedSmokeNotifs}">
+                            <Text Value="Dag {num}" Dock="Top" Margin="20,10,20,0"
+                                  FontSize="18" TextWrapping="Wrap" Padding="0, 4, 0, 12" />
+                            <Each Items="{day}">
+                                <Text Value="{nMessage}" Dock="Top" Margin="20,0,20,0"
+                                      FontSize="16" TextWrapping="Wrap" Padding="0, 4, 0, 12" />
+                            </Each>
+                            <Rectangle Color="#ddd" Height=1 />
+                        </Each>
+                    </StackPanel>
+                </ScrollView>
+            </WhileTrue>
+
+            <WhileTrue Value="{showSnus == true}">
+                <ScrollView ux:Name="archiveTabSnus" >
+                    <WhileTrue Value="{showSmoke == true && showSnus == true}">
+                        <WhileActive>
+    		                <Change snusArchivePanel.Color="SluttaRed" Duration="0.2"/>
+    		                <Change snusArchivePanelText.Color="White" Duration="0.2"/>
+                        </WhileActive>
+                    </WhileTrue>
+                    <StackPanel Padding="0,10,0,5">
+                        <Each Items="{passedSnusNotifs}">
+                            <Text Value="Dag {num}" Dock="Top" Margin="20,10,20,0"
+                                  FontSize="18" TextWrapping="Wrap" Padding="0, 4, 0, 12" />
+                            <Each Items="{day}">
+                                <Text Value="{nMessage}" Dock="Top" Margin="20,0,20,0"
+                                      FontSize="16" TextWrapping="Wrap" Padding="0, 4, 0, 12" />
+                            </Each>
+                            <Rectangle Color="#ddd" Height=1 />
+                        </Each>
+                    </StackPanel>
+                </ScrollView>
+            </WhileTrue>
+        </PageControl>
+    </DockPanel>
+</Page>

@@ -1,0 +1,10 @@
+<Page ux:Class="StressedPage">
+    <Router ux:Dependency="depRouter" />
+    <JavaScript File="StressedPage.js" />
+    <DockPanel>
+        <CommonNavBar router="depRouter" Dock="Top" PrevTitle="Tilbake" />
+        <Text Value="Stressa?" Color="#444" Dock="Top" Margin="15,15,15,0"
+            FontSize="32" TextWrapping="Wrap" Padding="10,10,10,0" Font="SluttaMedium" />
+        <ListNavGenerator router="depRouter" Entries="{stress}"  />
+    </DockPanel>
+</Page>

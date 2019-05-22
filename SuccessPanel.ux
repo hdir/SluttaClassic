@@ -1,0 +1,40 @@
+<Panel ux:Class="SuccessPanel" Tapped="{Property DetailDestination}" Background="#ffffff00">
+    <bool ux:Property="Enabled" />
+    <double ux:Property="DurationFree" />
+    <object ux:Property="DetailDestination" />
+    <string ux:Property="HaveBeenText" />
+    <string ux:Property="WillBeText" />
+        <WhileTrue Value="{Property Enabled} && {Property DurationFree} >= 0">
+            <DockPanel>
+                <Rectangle Dock="Top" Height="1" Color="#ddd" Margin="0, 5, 0, 0" />
+                <StackPanel>
+                    <Text Value="{Property HaveBeenText}:"
+                          Alignment="Center" Margin="10, 8, 10, 2"
+                          FontSize="16" Color="Black" />
+                    <Grid ux:Name="myTimerStackPanel" Columns="10*,1*" RowCount="1" Height="80" Padding="8, 0, 5, 0">
+                        <SuccessTimer Duration="{Property DurationFree}" />
+                        <Rectangle ux:Name="myRect"
+                                   Color="#ffffff00" Opacity="1"
+                                   >
+                            <Image ux:Name="myTriangle"
+                                   Width="20" Alignment="TopCenter" Padding="0, 40, 0, 0"
+                                   File="Assets/arrow.png">
+                                <Rotation Degrees="90" />
+                            </Image>
+                        </Rectangle>
+                    </Grid>
+                </StackPanel>
+            </DockPanel>
+        </WhileTrue>
+        <WhileTrue Value="{Property Enabled} && {Property DurationFree} < 0">
+            <StackPanel>
+                <Text Value="{Property WillBeText}:" Alignment="Center" Margin="10, 5, 10, 2"
+                      FontSize="16" Color="Black" />
+                <SuccessTimer Duration="{Property DurationFree}" Height="80" />
+            </StackPanel>
+        </WhileTrue>
+        <Pressed>
+            <Scale Target="myTriangle" Factor="1.3" Duration="0.2"/>
+            <Scale Target="myTimerStackPanel" Factor="1.03" Duration="0.2"/>
+        </Pressed>
+</Panel>

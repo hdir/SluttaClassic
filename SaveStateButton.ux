@@ -1,0 +1,36 @@
+
+<!-- BASIC BUTTON -->
+<DockPanel ux:Class="SaveStateButton" ClipToBounds="True" BackgroundColor="#f00" HoverColor="#efefef" TextColor="#fff" Text="Button" Font="Bold" FontSize="18" Padding="10">
+    <float4 ux:Property="BackgroundColor" />
+    <float4 ux:Property="HoverColor" />
+    <float4 ux:Property="TextColor" />
+    <string ux:Property="Text" />
+    <string ux:Property="Font" />
+    <string ux:Property="FontSize" />
+
+    <StateGroup ux:Name="sg" Rest="button_inactive">
+        <State ux:Name="button_inactive">
+            <Change pinkScaling.Factor="0.0" Duration="0.3" DurationBack="0.2" DelayBack="0.0" Easing="CircularInOut"/>
+        </State>
+        <State ux:Name="button_active">
+            <Change pinkScaling.Factor="10" Duration="0.3" DurationBack="0.2" DelayBack="0.0" Easing="CircularInOut"/>
+        </State>
+    </StateGroup>
+
+    <Pressed>
+        <Toggle Target="buttonPressed" />
+    </Pressed>
+
+    <WhileTrue ux:Name="buttonPressed">
+        <Change sg.Active="button_active"/>
+    </WhileTrue>
+
+    <Text TextAlignment="Center" Margin="8" Width="100%" Value="{Property this.Text}" TextColor="{Property this.TextColor}" Font="{Property this.Font}" FontSize="{Property this.FontSize}" />
+
+    <Circle ux:Name="pinkCircle" Layer="Background" Color="{Property this.HoverColor}">
+        <Scaling ux:Name="pinkScaling" Factor="0"/>
+    </Circle>
+
+    <Rectangle Layer="Background" Color="{Property this.BackgroundColor}" CornerRadius="5" Width="100%" />
+
+</DockPanel>

@@ -1,0 +1,87 @@
+{
+  "RootNamespace":"",
+  "Packages": [
+    "Fuse",
+    "FuseJS",
+    "Fuse.Controls.CameraView",
+    "Fuse.ImageTools",
+    "Fuse.Share",
+    "Fuse.Launcher"
+  ],
+  "AdForm" : {
+    "AppName": "Slutta",
+    "TrackingIDs": [""]
+  },
+  "Projects": [
+    "../Fuse.Firebase/src/Firebase.Notifications/Firebase.Notifications.unoproj",
+    "../Fuse.Firebase/src/Firebase.Analytics/Firebase.Analytics.unoproj",
+    "../Fuse.AdForm/src/Fuse.AdForm.unoproj",
+    "../MyDatePicker/MyDatePicker.unoproj",
+    "../LocalNotify/LocalNotify.unoproj"
+  ],
+  "Firebase": {
+    "GoogleServices": {
+      "Android": "",
+      "iOS": ""
+    }
+  },
+  "iOS": {
+    "BundleIdentifier": "",
+    "SystemCapabilities": {
+      "Push" : true
+    },
+    "Icons": {
+		"iPhone_20_2x": "Assets/Icons/Icon-iPhone-20@2x.png",
+		"iPhone_20_3x": "Assets/Icons/Icon-iPhone-20@3x.png",
+		"iPhone_29_2x": "Assets/Icons/Icon-iPhone-29@2x.png",
+		"iPhone_29_3x": "Assets/Icons/Icon-iPhone-29@3x.png",
+		"iPhone_40_2x": "Assets/Icons/Icon-iPhone-40@2x.png",
+		"iPhone_40_3x": "Assets/Icons/Icon-iPhone-40@3x.png",
+		"iPhone_60_2x": "Assets/Icons/Icon-iPhone-60@2x.png",
+		"iPhone_60_3x": "Assets/Icons/Icon-iPhone-60@3x.png",
+		"iPad_20_1x": "Assets/Icons/Icon-iPad-20@1x.png",
+		"iPad_20_2x": "Assets/Icons/Icon-iPad-20@2x.png",
+		"iPad_29_1x": "Assets/Icons/Icon-iPad-29@1x.png",
+		"iPad_29_2x": "Assets/Icons/Icon-iPad-29@2x.png",
+		"iPad_40_1x": "Assets/Icons/Icon-iPad-40@1x.png",
+		"iPad_40_2x": "Assets/Icons/Icon-iPad-40@2x.png",
+		"iPad_76_1x": "Assets/Icons/Icon-iPad-76@1x.png",
+		"iPad_76_2x": "Assets/Icons/Icon-iPad-76@2x.png",
+		"iPad_83.5_2x": "Assets/Icons/Icon-iPad-83.5@2x.png"
+	}
+  },
+  "Android": {
+    "SDK": {
+      "BuildToolsVersion": "26.0.2",
+      "CompileVersion": "26",
+      "TargetVersion": "26"
+    },
+    "Icons": {
+      "LDPI": "Assets/Icons/Icon-ldpi-36x36.png",
+      "MDPI": "Assets/Icons/Icon-mdpi-48x48.png",
+      "HDPI": "Assets/Icons/Icon-hdpi-72x72.png",
+      "XHDPI": "Assets/Icons/Icon-xhdpi-96x96.png",
+      "XXHDPI": "Assets/Icons/Icon-xxhdpi-144x144.png",
+      "XXXHDPI": "Assets/Icons/Icon-xxxhdpi-192x192.png"
+    },
+    "NotificationIcon": {
+      "LDPI": "Assets/Icons/LDPI-36.png",
+      "MDPI": "Assets/Icons/MDPI-48.png",
+      // "HDPI": "Assets/Icons/HDPI-96.png",
+      "XHDPI": "Assets/Icons/XHDPI-96.png",
+      "XXHDPI": "Assets/Icons/XXHDPI-144.png",
+      "XXXHDPI": "Assets/Icons/XXXHDPI-192.png",
+    }
+  },
+  "Mobile": {
+    "Orientations": "Portrait"
+  },
+  "Includes": [
+    "*",
+    "*.js:Bundle",
+    "Assets/*.jpg:Bundle",
+    "Assets/DetailsPage/*.jpg:Bundle",
+    "Assets/DetailsPage/*.png:Bundle",
+    "GoogleService-Info.plist:ObjCSource:iOS"
+  ]
+}

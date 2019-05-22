@@ -1,0 +1,21 @@
+<StackPanel ux:Class="Popup" IsOpen="false">
+    <bool ux:Property="IsOpen" />
+    <string ux:Property="Text" />
+    <WhileTrue Value="{Property IsOpen}">
+        <Rectangle Width="100%" CornerRadius="15" Fill="#fefefe" ClipToBounds="true">
+            <DropShadow Size="15" Distance="5" Spread="0.1" Color="#0004" Angle="90" />
+            <StackPanel ClipToBounds="true">
+                <!--  this text should be one of a random selection stored somewhere -->
+                <Text Width="100%" TextWrapping="Wrap" Value="{Property Text}" TextAlignment="Center" Margin="20" TextColor="Black" FontSize="16" />
+                <Rectangle Height="1" Color="#ddd" />
+                <!--  button to close popup and continue as before -->
+                <BoldButton Width="100%" Text="Ok" TextColor="SluttaBlue" TextHoverColor="SluttaLightBlue"
+                    CornerRadius="0,0,15,15" BackgroundColor="#ffffffff" BackgroundHoverColor="#efefefff" Alignment="Center">
+                    <Tapped>
+                        <Set this.IsOpen="false" />
+                    </Tapped>
+                </BoldButton>
+            </StackPanel>
+        </Rectangle>
+    </WhileTrue>
+</StackPanel>

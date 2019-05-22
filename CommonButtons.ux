@@ -1,0 +1,24 @@
+<!-- BASIC BUTTON -->
+<Panel ux:Class="BasicButton" ClipToBounds="True" BackgroundColor="#fff" BackgroundHoverColor="#eee" TextColor="White" TextHoverColor="White" Text="Button" Font="Bold" FontSize="18" Padding="10">
+    <float4 ux:Property="BackgroundColor" />
+    <float4 ux:Property="BackgroundHoverColor" />
+    <float4 ux:Property="TextColor" />
+    <float4 ux:Property="TextHoverColor" />
+    <string ux:Property="Text" />
+    <string ux:Property="Font" />
+    <string ux:Property="FontSize" />
+
+    <Tapped>
+        <Change pinkScaling.Factor="10" Duration="0.3" DurationBack="0.1" DelayBack="0.0" Easing="CircularInOut"/>
+        <Change pinkCircle.Opacity="0" Duration="0.3" DurationBack="0.2" Delay="0.1" Easing="CircularInOut"/>
+        <Change BasicButtonText.TextColor="{Property this.TextHoverColor}" Duration="0.05" DurationBack="0.1" />
+    </Tapped>
+
+    <Text ux:Name="BasicButtonText" TextAlignment="Center" Margin="8" Width="100%" Value="{Property this.Text}" TextColor="{Property this.TextColor}" Font="{Property this.Font}" FontSize="{Property this.FontSize}" />
+
+    <Circle ux:Name="pinkCircle" Layer="Background" Color="{Property this.BackgroundHoverColor}" Opacity="1">
+        <Scaling ux:Name="pinkScaling" Factor="0"/>
+    </Circle>
+
+    <Rectangle ux:Name="BasicButtonRectangle" Layer="Background" Color="{Property this.BackgroundColor}" CornerRadius="5" Width="100%" />
+</Panel>

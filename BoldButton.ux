@@ -1,0 +1,19 @@
+<!-- BOLD BUTTON -->
+<Panel ux:Class="BoldButton" BackgroundColor="#fff" BackgroundHoverColor="#eee" CornerRadius="3,3,3,3" TextColor="#fff" TextHoverColor="#fff" Text="Button" Padding="10" TriggerThis="">
+    <float4 ux:Property="BackgroundColor" />
+    <float4 ux:Property="BackgroundHoverColor" />
+    <float4 ux:Property="TextColor" />
+    <float4 ux:Property="TextHoverColor" />
+    <string ux:Property="Text" />
+    <string ux:Property="TriggerThis" />
+    <string ux:Property="Font" />
+    <float4 ux:Property="CornerRadius" />
+
+    <WhilePressed>
+        <Change BoldButtonText.TextColor="{Property this.TextHoverColor}" Duration="0.05" />
+        <Change BoldButtonRectangle.Color="{Property this.BackgroundHoverColor}" Duration="0.05" />
+    </WhilePressed>
+
+    <Text ux:Name="BoldButtonText" TextAlignment="Center" Margin="8" Width="100%" Value="{Property this.Text}" TextColor="{Property this.TextColor}" Font="Bold" />
+    <Rectangle ux:Name="BoldButtonRectangle" Layer="Background" Color="{Property this.BackgroundColor}" CornerRadius="{Property this.CornerRadius}" Width="100%" />
+</Panel>

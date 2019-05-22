@@ -1,0 +1,32 @@
+<Page ux:Class="SplashPage">
+    <Router ux:Dependency="depRouter" />
+    <JavaScript File="SplashPage.js" />
+
+    <UserEvent ux:Name="myEvent" />
+    <OnUserEvent EventName="myEvent" Handler="{homePageTimeout}" />
+
+        <Rectangle Height="180" Color="#ffffff00" Dock="Top">
+            <StackPanel Dock="Top">
+                <Image ux:Name="splashLogo" Opacity="0" Width="50%" File="Assets/slutta_logo.png" />
+            </StackPanel>
+        </Rectangle>
+
+    <DockPanel>
+        <StackPanel Dock="Bottom" Padding="80, 40">
+            <Image ux:Name="splashLogo2" File="Assets/Hdir_logo.png" Opacity="0" />
+        </StackPanel>
+
+    </DockPanel>
+
+    <Timeline ux:Name="splashTimeline">
+        <Change splashLogo.Opacity="1" Duration="1" />
+        <RaiseUserEvent EventName="myEvent" Delay="1.5" />
+    </Timeline>
+    <Timeline ux:Name="splashTimeline2">
+        <Change splashLogo2.Opacity="1" Duration="1" />
+    </Timeline>
+    <WhileActive>
+        <Change splashTimeline.TargetProgress="1" />
+        <Change splashTimeline2.TargetProgress="1" />
+    </WhileActive>
+</Page>
