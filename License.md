@@ -1,4 +1,4 @@
-#SLUTTA - Slutte å snuse og røyke
+# SLUTTA - Slutte å snuse og røyke
 
 Source Code: BSD 2-Clause “Simplified” License
 This license requires that derivative works must use the same license, thus retaining the open-source nature of the codebase.
@@ -22,6 +22,6 @@ MyDatePicker
 Moment.js
 
 
-##Assets:
+## Assets:
 
 Proprietary assets used in this project (the Slutta font-face, the Slutta color codes, background images, Slutta logo and Helsedirektoratet logo) are copyright Helsedirektoratet 2018 and may not be used without permission.
